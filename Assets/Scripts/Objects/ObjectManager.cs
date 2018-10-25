@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectSpawner : MonoBehaviour {
+public class ObjectManager : MonoBehaviour {
 
     [SerializeField]
     Floor[] floors;
     [SerializeField]
-    PlayerObject playerObject;
+    PlayerPawn playerPawn;
 
     HoleObject[] HoleObjectsInPool;
     HoleObject[] HoleObjectsInScene;
@@ -22,6 +22,11 @@ public class ObjectSpawner : MonoBehaviour {
         {
             return floors.Length;
         }
+    }
+
+    public float FloorPosition(int floorNumber)
+    {
+        return floors[floorNumber].transform.position.y;
     }
 
     /// <summary>
@@ -52,10 +57,9 @@ public class ObjectSpawner : MonoBehaviour {
 
     public void SpawnPlayerObject(float size, Vector2 position, float floorHeight)
     {
-        playerObject.transform.position = new Vector2(position.x, position.y + floorSpriteSize * 0.5f);
+        playerPawn.transform.position = new Vector2(position.x, position.y + floorSpriteSize * 0.5f);
         //se le suma a la posición en y la mitad del tamaño del sprite del piso para que el personaje aparente estar "sobre" el piso.
 
-        SpriteRenderer playerSprite = playerObject.GetComponent<SpriteRenderer>();
-        playerSprite.size = new Vector2(size, size);
+        playerPawn.MySpriteRenderer.size = new Vector2(size, size);
     }
 }

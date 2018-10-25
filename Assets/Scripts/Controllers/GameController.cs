@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private static GameController instance = null;
+
+    public static GameController Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = GameObject.FindObjectOfType<GameController>();
+            }
+            return instance;
+        }
+    }
+
+    public ObjectManager objectManager { get; set; }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);   
+    }
+
 }

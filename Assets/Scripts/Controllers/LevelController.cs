@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ObjectSpawner))]
+[RequireComponent(typeof(ObjectManager))]
 public class LevelController : MonoBehaviour {
 
     [SerializeField]
@@ -13,7 +13,7 @@ public class LevelController : MonoBehaviour {
     [SerializeField]
     int maxFloors = 9;
 
-    ObjectSpawner objectSpawner;
+    ObjectManager myObjectManager;
 
     float offset;
     float playAreaHeight;
@@ -50,9 +50,10 @@ public class LevelController : MonoBehaviour {
     void Awake () {
         cam = Camera.main;
 
-        if (!objectSpawner)
+        if (!myObjectManager)
         {
-            objectSpawner = GetComponent<ObjectSpawner>();
+            myObjectManager = GetComponent<ObjectManager>();
+            GameController.Instance.objectManager = myObjectManager;
         }
         //Posiciones en Y
 
@@ -70,7 +71,7 @@ public class LevelController : MonoBehaviour {
 
 
 
-        if (objectSpawner.FloorQuantityInPool < maxFloors + 1) //Momentaneamente incluiré el piso 0
+        if (myObjectManager.FloorQuantityInPool < maxFloors + 1) //Momentaneamente incluiré el piso 0
         {
             Debug.LogError("Not enough Floors on Pool");
 #if UNITY_EDITOR
@@ -93,7 +94,7 @@ public class LevelController : MonoBehaviour {
     {
         for (int i = 0; i <= maxFloors; i++)
         {
-            objectSpawner.SpawnFloor(i, cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, (floorHeight * i) + offset)), levelWidth);
+            myObjectManager.SpawnFloor(i, cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, (floorHeight * i) + offset)), levelWidth);
         }
     }
 
@@ -111,7 +112,7 @@ public class LevelController : MonoBehaviour {
     /// </summary>
     private void SpawnPlayer()
     {
-        objectSpawner.SpawnPlayerObject(
+        myObjectManager.SpawnPlayerObject(
             playerObjectSize,
             cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, offset)),
             floorHeight);
