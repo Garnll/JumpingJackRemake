@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,29 +19,33 @@ public class LevelController : MonoBehaviour {
     float playAreaHeight;
     float levelHeight;
     float floorHeight;
-    float playerObjectHeight;
+    float playerObjectSize;
+    float levelWidth;
+
+    static float leftLevelBorder;
+    static float rightLevelBorder;
 
     Camera cam;
 
-    void OnGUI()
-    {
-        Vector3 point = new Vector3();
-        Event currentEvent = Event.current;
-        Vector2 mousePos = new Vector2();
+    //void OnGUI()
+    //{
+    //    Vector3 point = new Vector3();
+    //    Event currentEvent = Event.current;
+    //    Vector2 mousePos = new Vector2();
 
-        // Get the mouse position from Event.
-        // Note that the y position from Event is inverted.
-        mousePos.x = currentEvent.mousePosition.x;
-        mousePos.y = cam.pixelHeight - currentEvent.mousePosition.y;
+    //    // Get the mouse position from Event.
+    //    // Note that the y position from Event is inverted.
+    //    mousePos.x = currentEvent.mousePosition.x;
+    //    mousePos.y = cam.pixelHeight - currentEvent.mousePosition.y;
 
-        point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
+    //    point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
 
-        GUILayout.BeginArea(new Rect(20, 20, 250, 120));
-        GUILayout.Label("Screen pixels: " + cam.pixelWidth + ":" + cam.pixelHeight);
-        GUILayout.Label("Mouse position: " + mousePos);
-        GUILayout.Label("World position: " + point.ToString("F3"));
-        GUILayout.EndArea();
-    }
+    //    GUILayout.BeginArea(new Rect(20, 20, 250, 120));
+    //    GUILayout.Label("Screen pixels: " + cam.pixelWidth + ":" + cam.pixelHeight);
+    //    GUILayout.Label("Mouse position: " + mousePos);
+    //    GUILayout.Label("World position: " + point.ToString("F3"));
+    //    GUILayout.EndArea();
+    //}
 
     void Awake () {
         cam = Camera.main;
@@ -49,24 +54,66 @@ public class LevelController : MonoBehaviour {
         {
             objectSpawner = GetComponent<ObjectSpawner>();
         }
+        //Posiciones en Y
 
         playAreaHeight = cam.pixelHeight;
-        offset = playAreaHeight * offsetPercentage;
+        offset = playAreaHeight * offsetPercentage; 
 
-        levelHeight = playAreaHeight - (2 * offset);
-        floorHeight = levelHeight / maxFloors;
+        levelHeight = playAreaHeight - (2 * offset); //cuadro el area de juego para que cubra ligeramente menos que el total de la pantalla
+        floorHeight = levelHeight / maxFloors; 
 
-        playerObjectHeight = floorHeight*0.75f;
+        playerObjectSize = floorHeight*0.75f/100; //El sprite del jugador es cuadrado
 
-        Debug.Log("Posición piso 0: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 0 + offset)));
-        Debug.Log("Posición piso 1: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 1 + offset)));
-        Debug.Log("Posición piso 2: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 2 + offset)));
-        Debug.Log("Posición piso 3: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 3 + offset)));
-        Debug.Log("Posición piso 4: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 4 + offset)));
-        Debug.Log("Posición piso 5: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 5 + offset)));
-        Debug.Log("Posición piso 6: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 6 + offset)));
-        Debug.Log("Posición piso 7: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 7 + offset)));
-        Debug.Log("Posición piso 8: " + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, floorHeight * 8 + offset)));
+        //Posiciones en X
+
+        levelWidth = cam.pixelWidth - (offset); //Half the offset from Y
+
+
+
+        if (objectSpawner.FloorQuantityInPool < maxFloors + 1) //Momentaneamente incluiré el piso 0
+        {
+            Debug.LogError("Not enough Floors on Pool");
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Debug.Break();
+#endif
+            return;
+        }
+
+        SetBorders();
+        SpawnFloors();
+        SpawnPlayer();
     }
-	
+
+    /// <summary>
+    /// Make the given number of floors appear in the scene.
+    /// </summary>
+    private void SpawnFloors()
+    {
+        for (int i = 0; i <= maxFloors; i++)
+        {
+            objectSpawner.SpawnFloor(i, cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, (floorHeight * i) + offset)), levelWidth);
+        }
+    }
+
+    /// <summary>
+    /// Sets the static values of the play area borders.
+    /// </summary>
+    private void SetBorders()
+    {
+        leftLevelBorder = cam.ScreenToWorldPoint(new Vector2(offset, 0)).x;
+        rightLevelBorder = cam.ScreenToWorldPoint(new Vector2(levelWidth + offset, 0)).x;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void SpawnPlayer()
+    {
+        objectSpawner.SpawnPlayerObject(
+            playerObjectSize,
+            cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, offset)),
+            floorHeight);
+    }
 }
