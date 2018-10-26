@@ -7,11 +7,11 @@ using UnityEngine;
 public abstract class Pawn : MonoBehaviour {
 
     [SerializeField]
-    float velocity;
+    protected float velocity;
 
-    SpriteRenderer mySpriteRenderer;
-    float currentFloor;
-    Vector2 myDirection;
+    protected SpriteRenderer mySpriteRenderer;
+    protected float currentFloor;
+    protected Vector2 myDirection;
 
     public SpriteRenderer MySpriteRenderer
     {
@@ -33,6 +33,7 @@ public abstract class Pawn : MonoBehaviour {
     protected void Move(Vector2 direction)
     {
         transform.Translate(direction * Time.deltaTime * velocity);
+        CheckEndOfScreen();
     }
 
     protected abstract void CheckEndOfScreen();

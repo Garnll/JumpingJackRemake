@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+    [SerializeField]
+    PlayerPawn playerControllable;
+
+	void Update ()
+    {
+        playerControllable.ReceiveInput(Input.GetAxisRaw("Horizontal"));
+
+        playerControllable.ReceiveInput(Input.GetButton("Jump") || Input.GetKey(KeyCode.UpArrow));
 	}
 }

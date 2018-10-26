@@ -22,30 +22,30 @@ public class LevelController : MonoBehaviour {
     float playerObjectSize;
     float levelWidth;
 
-    static float leftLevelBorder;
-    static float rightLevelBorder;
+    public static float leftLevelBorder { get; private set; }
+    public static float rightLevelBorder { get; private set; }
 
     Camera cam;
 
-    //void OnGUI()
-    //{
-    //    Vector3 point = new Vector3();
-    //    Event currentEvent = Event.current;
-    //    Vector2 mousePos = new Vector2();
+    void OnGUI()
+    {
+        Vector3 point = new Vector3();
+        Event currentEvent = Event.current;
+        Vector2 mousePos = new Vector2();
 
-    //    // Get the mouse position from Event.
-    //    // Note that the y position from Event is inverted.
-    //    mousePos.x = currentEvent.mousePosition.x;
-    //    mousePos.y = cam.pixelHeight - currentEvent.mousePosition.y;
+        // Get the mouse position from Event.
+        // Note that the y position from Event is inverted.
+        mousePos.x = currentEvent.mousePosition.x;
+        mousePos.y = cam.pixelHeight - currentEvent.mousePosition.y;
 
-    //    point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
+        point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
 
-    //    GUILayout.BeginArea(new Rect(20, 20, 250, 120));
-    //    GUILayout.Label("Screen pixels: " + cam.pixelWidth + ":" + cam.pixelHeight);
-    //    GUILayout.Label("Mouse position: " + mousePos);
-    //    GUILayout.Label("World position: " + point.ToString("F3"));
-    //    GUILayout.EndArea();
-    //}
+        GUILayout.BeginArea(new Rect(20, 20, 250, 120));
+        GUILayout.Label("Screen pixels: " + cam.pixelWidth + ":" + cam.pixelHeight);
+        GUILayout.Label("Mouse position: " + mousePos);
+        GUILayout.Label("World position: " + point.ToString("F3"));
+        GUILayout.EndArea();
+    }
 
     void Awake () {
         cam = Camera.main;
@@ -67,7 +67,7 @@ public class LevelController : MonoBehaviour {
 
         //Posiciones en X
 
-        levelWidth = cam.pixelWidth - (offset); //Half the offset from Y
+        levelWidth = cam.pixelWidth - offset; //Half the offset from Y
 
 
 
@@ -103,8 +103,9 @@ public class LevelController : MonoBehaviour {
     /// </summary>
     private void SetBorders()
     {
-        leftLevelBorder = cam.ScreenToWorldPoint(new Vector2(offset, 0)).x;
-        rightLevelBorder = cam.ScreenToWorldPoint(new Vector2(levelWidth + offset, 0)).x;
+        Debug.Log(levelWidth);
+        leftLevelBorder = cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth - levelWidth + offset * 0.5f, 0)).x;
+        rightLevelBorder = cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth - offset * 1.5f, 0)).x;
     }
 
     /// <summary>

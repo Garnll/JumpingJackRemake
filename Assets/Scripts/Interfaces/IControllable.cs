@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IControllable {
 
-    void ReceiveInput();
+    void ReceiveInput(float horizontal);
+    void ReceiveInput(bool input);
 }
