@@ -103,7 +103,6 @@ public class LevelController : MonoBehaviour {
     /// </summary>
     private void SetBorders()
     {
-        Debug.Log(levelWidth);
         leftLevelBorder = cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth - levelWidth + offset * 0.5f, 0)).x;
         rightLevelBorder = cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth - offset * 1.5f, 0)).x;
     }

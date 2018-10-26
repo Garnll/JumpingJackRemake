@@ -9,8 +9,8 @@ public class ObjectManager : MonoBehaviour {
     [SerializeField]
     PlayerPawn playerPawn;
 
-    HoleObject[] HoleObjectsInPool;
-    HoleObject[] HoleObjectsInScene;
+    HolePawn[] HolePawnsInPool;
+    HolePawn[] HolePawnsInScene;
     EnemyObject[] EnemyObjectsInPool;
     EnemyObject[] EnemyObjectsInScene;
 
