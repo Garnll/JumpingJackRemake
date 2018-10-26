@@ -7,8 +7,15 @@ public class PlayerPawn : Pawn, IControllable {
 
     [SerializeField]
     float maxJumpTime = 0.5f;
+    [Space(10)]
     [SerializeField]
     float maxStunTime = 4;
+    [SerializeField]
+    float fallStunTime = 1;
+    [SerializeField]
+    float enemyStunTime = 2;
+    [SerializeField]
+    float ceilingStunTime = 3;
 
     Animator myAnimator;
     float jumpLength = -1;
@@ -219,7 +226,7 @@ public class PlayerPawn : Pawn, IControllable {
     {
         transform.position = new Vector2(transform.position.x, (transform.position.y - jumpLength) + mySpriteRenderer.bounds.extents.y);
 
-        currentStunTime += 3;
+        currentStunTime += ceilingStunTime;
 
         if (!isStunned)
         {
@@ -231,14 +238,14 @@ public class PlayerPawn : Pawn, IControllable {
     {
         if (currentFloor > 0)
         {
-            if (currentStunTime < 1)
+            if (currentStunTime < fallStunTime)
             {
-                currentStunTime = 1;
+                currentStunTime = fallStunTime;
             }
         }
         else
         {
-            currentStunTime += 3;
+            currentStunTime += ceilingStunTime;
         }
 
         if (!isStunned)
