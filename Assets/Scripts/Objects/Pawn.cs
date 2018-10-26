@@ -10,7 +10,7 @@ public abstract class Pawn : MonoBehaviour {
     protected float velocity;
 
     protected SpriteRenderer mySpriteRenderer;
-    protected float currentFloor;
+    protected int currentFloor;
     protected Vector2 myDirection;
 
     public SpriteRenderer MySpriteRenderer
@@ -37,5 +37,5 @@ public abstract class Pawn : MonoBehaviour {
     }
 
     protected abstract void CheckEndOfScreen();
-    protected abstract void ChangeFloor();
+    protected abstract void ChangeFloor(int floor);
 }

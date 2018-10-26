@@ -11,15 +11,26 @@ public class ObjectManager : MonoBehaviour {
     [SerializeField]
     int maxHolesInScene = 8;
     [SerializeField]
-    HolePawn[] HolePawnsInPool;
+    HolePawn[] holePawnsInPool;
+    [SerializeField]
+    HolePawn[] holeGhostsPool;
 
-    HolePawn[] HolePawnsInScene;
+    HolePawn[] holePawnsInScene;
     int holePoolPosition = 0;
 
-    EnemyObject[] EnemyObjectsInPool;
-    EnemyObject[] EnemyObjectsInScene;
+    EnemyObject[] enemyObjectsInPool;
+    EnemyObject[] eEnemyObjectsInScene;
 
     float floorSpriteSize = -1;
+    int maxVisibleFloors = 8;
+
+    public int MaxVisibleFloors
+    {
+        get
+        {
+            return maxVisibleFloors;
+        }
+    }
 
     public int FloorQuantityInPool
     {
@@ -31,7 +42,16 @@ public class ObjectManager : MonoBehaviour {
 
     private void Awake()
     {
-        foreach (HolePawn hole in HolePawnsInPool)
+        if (holePawnsInPool.Length == 0 || holeGhostsPool.Length == 0)
+        {
+            Debug.LogError("An Hole Pool it's empty");
+        }
+
+        foreach (HolePawn hole in holePawnsInPool)
+        {
+            hole.gameObject.SetActive(false);
+        }
+        foreach (HolePawn hole in holeGhostsPool)
         {
             hole.gameObject.SetActive(false);
         }
@@ -73,6 +93,18 @@ public class ObjectManager : MonoBehaviour {
         floors[floorNumber].transform.position = new Vector2(floorPosition.x, floorPosition.y);
     }
 
+    public float CheckLeftLevelBorder()
+    {
+        SpriteRenderer floorSprite = floors[0].GetComponent<SpriteRenderer>();
+        return floorSprite.bounds.center.x - floorSprite.bounds.extents.x;
+    }
+
+    public float CheckRightLevelBorder()
+    {
+        SpriteRenderer floorSprite = floors[0].GetComponent<SpriteRenderer>();
+        return floorSprite.bounds.center.x + floorSprite.bounds.extents.x;
+    }
+
 
     public void SpawnPlayerObject(float size, Vector2 position, float floorHeight)
     {
@@ -85,12 +117,13 @@ public class ObjectManager : MonoBehaviour {
     /// <summary>
     /// Sets the first 2 holes to appear in the scene.
     /// </summary>
-    public void SpawnFirstHoles()
+    public void SpawnFirstHoles(int maxFloors)
     {
         holePoolPosition = 0;
-        HolePawnsInScene = new HolePawn[maxHolesInScene];
+        holePawnsInScene = new HolePawn[maxHolesInScene];
+        maxVisibleFloors = maxFloors;
 
-        Vector2 spawnPosition = SpawnHolePosition();
+        Vector3 spawnPosition = SpawnHolePosition();
 
         for (int i = 0; i < 2; i++)
         {
@@ -98,30 +131,34 @@ public class ObjectManager : MonoBehaviour {
         }
     }
 
-    public Vector2 SpawnHolePosition()
+    public Vector3 SpawnHolePosition()
     {
-        Vector2 newPosition = new Vector2();
+        Vector3 newPosition = new Vector2();
 
         newPosition.x = Random.Range(LevelController.leftLevelBorder + floorSpriteSize * 0.1f, LevelController.rightLevelBorder - floorSpriteSize * 0.1f);
-        newPosition.y = floors[Random.Range(1, 9)].transform.position.y;
+
+        int floorNumber = Random.Range(1, maxVisibleFloors + 1);
+        newPosition.y = floors[floorNumber].transform.position.y;
+        newPosition.z = floorNumber;
 
         return newPosition;
     }
 
-    public void SpawnNewHole(Vector2 position)
+    public void SpawnNewHole(Vector3 position)
     {
         if (holePoolPosition >= maxHolesInScene)
         {
             return;
         }
 
-        HolePawnsInScene[holePoolPosition] = HolePawnsInPool[holePoolPosition];
-        HolePawnsInPool[holePoolPosition] = null;
+        holePawnsInScene[holePoolPosition] = holePawnsInPool[holePoolPosition];
+        holePawnsInPool[holePoolPosition] = null;
 
-        HolePawnsInScene[holePoolPosition].gameObject.SetActive(true);
-        HolePawnsInScene[holePoolPosition].transform.position = position;
+        holePawnsInScene[holePoolPosition].gameObject.SetActive(true);
+        holePawnsInScene[holePoolPosition].GiveSpawningFloor(position, (int)position.z);
 
-        GiveNewHoleDirection(HolePawnsInScene[holePoolPosition]);
+        GiveNewHoleDirection(holePawnsInScene[holePoolPosition]);
+        GiveNewHoleAGhost(holePawnsInScene[holePoolPosition]);
 
         holePoolPosition++;
     }
@@ -145,5 +182,15 @@ public class ObjectManager : MonoBehaviour {
             spawningHole.GiveDirection(Vector2.right);
         }
         //Se hacen estos if para recrear la manera en que se creaban los huecos en el juego original
+    }
+
+    /// <summary>
+    /// Gives a ghosts to a hole pawn, and gives this hole pawn as a ghost to the ghost.
+    /// </summary>
+    /// <param name="spawningHole"></param>
+    private void GiveNewHoleAGhost(HolePawn spawningHole)
+    {
+        spawningHole.AddGhost(holeGhostsPool[holePoolPosition]);
+        holeGhostsPool[holePoolPosition].AddGhost(spawningHole);
     }
 }

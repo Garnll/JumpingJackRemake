@@ -34,18 +34,18 @@ public class PlayerPawn : Pawn, IControllable {
 
     protected override void CheckEndOfScreen()
     {
-        if (transform.position.x <= LevelController.leftLevelBorder + mySpriteRenderer.size.x * 0.25f)
+        if (transform.position.x < LevelController.leftLevelBorder)
         {
-            transform.position = new Vector2(LevelController.rightLevelBorder - mySpriteRenderer.size.x * 0.25f, transform.position.y);
+            transform.position = new Vector2(LevelController.rightLevelBorder, transform.position.y);
         }
 
-        if (transform.position.x >= LevelController.rightLevelBorder - mySpriteRenderer.size.x * 0.25f)
+        if (transform.position.x > LevelController.rightLevelBorder)
         {
-            transform.position = new Vector2(LevelController.leftLevelBorder + mySpriteRenderer.size.x * 0.25f, transform.position.y);
+            transform.position = new Vector2(LevelController.leftLevelBorder, transform.position.y);
         }
     }
 
-    protected override void ChangeFloor()
+    protected override void ChangeFloor(int floor)
     {
 
     }
