@@ -13,6 +13,21 @@ public class HolePawn : Pawn {
             ((2.5f * Screen.height) / 600));
     }
 
+    public void GiveDirection(Vector2 direction)
+    {
+        myDirection = direction;
+        StartCoroutine(UpdateMovement());
+    }
+
+    private IEnumerator UpdateMovement()
+    {
+        while (true)
+        {
+            yield return new WaitForFixedUpdate();
+            Move(myDirection);
+        }
+    }
+
     protected override void CheckEndOfScreen()
     {
 

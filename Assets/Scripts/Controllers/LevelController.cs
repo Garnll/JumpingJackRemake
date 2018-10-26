@@ -47,7 +47,7 @@ public class LevelController : MonoBehaviour {
         GUILayout.EndArea();
     }
 
-    void Awake () {
+    void Start () {
         cam = Camera.main;
 
         if (!myObjectManager)
@@ -85,6 +85,7 @@ public class LevelController : MonoBehaviour {
         SetBorders();
         SpawnFloors();
         SpawnPlayer();
+        SpawnHoles();
     }
 
     /// <summary>
@@ -108,7 +109,7 @@ public class LevelController : MonoBehaviour {
     }
 
     /// <summary>
-    /// 
+    /// Sets the spawn point of the player.
     /// </summary>
     private void SpawnPlayer()
     {
@@ -116,5 +117,13 @@ public class LevelController : MonoBehaviour {
             playerObjectSize,
             cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, offset)),
             floorHeight);
+    }
+
+    /// <summary>
+    /// Makes the object manager spawn the first holes;
+    /// </summary>
+    private void SpawnHoles()
+    {
+        myObjectManager.SpawnFirstHoles();
     }
 }
