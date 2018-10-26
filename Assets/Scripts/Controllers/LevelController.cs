@@ -49,7 +49,7 @@ public class LevelController : MonoBehaviour {
         //Posiciones en X
 
         horizontalOffset = cam.pixelWidth * offsetPercentage * 0.5f;
-        levelWidth = cam.pixelWidth - horizontalOffset; 
+        levelWidth = cam.pixelWidth - horizontalOffset;
 
 
 

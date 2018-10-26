@@ -14,10 +14,6 @@ public class HolePawn : Pawn {
             ((25 * Screen.width) / 800),
             ((2.5f * Screen.height) / 600));
 
-        mySpriteRenderer.size = new Vector2(
-            (1 * Screen.width) / 800,
-            0.5f);
-
         isExitingFloor = false;
     }
 
