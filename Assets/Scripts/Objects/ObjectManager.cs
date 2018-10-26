@@ -40,6 +40,14 @@ public class ObjectManager : MonoBehaviour {
         }
     }
 
+    public float FloorHeight
+    {
+        get
+        {
+            return floors[floors.Length - 1].transform.position.y - floors[floors.Length - 2].transform.position.y;
+        }
+    }
+
     private void Awake()
     {
         if (holePawnsInPool.Length == 0 || holeGhostsPool.Length == 0)
@@ -55,6 +63,8 @@ public class ObjectManager : MonoBehaviour {
         {
             hole.gameObject.SetActive(false);
         }
+
+        PlayerPawn.OnPassThruHole += SpawnNewHole;
     }
 
 
@@ -131,6 +141,10 @@ public class ObjectManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Returns a random position from where to spawn a hole.
+    /// </summary>
+    /// <returns></returns>
     public Vector3 SpawnHolePosition()
     {
         Vector3 newPosition = new Vector2();
@@ -144,7 +158,19 @@ public class ObjectManager : MonoBehaviour {
         return newPosition;
     }
 
-    public void SpawnNewHole(Vector3 position)
+    /// <summary>
+    /// Spawns a Hole in a random position.
+    /// </summary>
+    private void SpawnNewHole()
+    {
+        SpawnNewHole(SpawnHolePosition());
+    }
+
+    /// <summary>
+    /// Spawns a Hole in a given position.
+    /// </summary>
+    /// <param name="position"></param>
+    private void SpawnNewHole(Vector3 position)
     {
         if (holePoolPosition >= maxHolesInScene)
         {
