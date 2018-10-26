@@ -67,6 +67,10 @@ public class ObjectManager : MonoBehaviour {
         PlayerPawn.OnPassThruHole += SpawnNewHole;
     }
 
+    private void OnDestroy()
+    {
+        PlayerPawn.OnPassThruHole -= SpawnNewHole;
+    }
 
     /// <summary>
     /// Gives the position of the specified floor.
@@ -118,10 +122,16 @@ public class ObjectManager : MonoBehaviour {
 
     public void SpawnPlayerObject(float size, Vector2 position, float floorHeight)
     {
-        playerPawn.transform.position = new Vector2(position.x, position.y + floorSpriteSize * 0.5f);
+        playerPawn.SetStartPosition(new Vector2(position.x, position.y + floorSpriteSize * 0.5f));
         //se le suma a la posición en y la mitad del tamaño del sprite del piso para que el personaje aparente estar "sobre" el piso.
 
         playerPawn.MySpriteRenderer.size = new Vector2(size, size);
+        BoxCollider2D playerCollider = playerPawn.MyCollider as BoxCollider2D;
+
+        playerCollider.size = new Vector2(size * 0.25f, size);
+        playerCollider.offset = new Vector2(0, size * 0.5f);
+
+        playerPawn.gameObject.SetActive(true);
     }
 
     /// <summary>

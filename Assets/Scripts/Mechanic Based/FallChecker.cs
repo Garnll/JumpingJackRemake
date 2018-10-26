@@ -4,13 +4,35 @@ using UnityEngine;
 
 public class FallChecker : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField]
+    PlayerPawn player;
+
+    private void OnEnable()
+    {
+        BoxCollider2D myCollider = GetComponent<BoxCollider2D>();
+
+        myCollider.size = player.MySpriteRenderer.size * 0.25f;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (player == null)
+        {
+            player = GetComponentInParent<PlayerPawn>();
+        }
+
+        if (!player.IsJumping)
+        {
+            player.StartFall();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!player.IsJumping)
+        {
+            player.StartFall();
+        }
+    }
+
 }

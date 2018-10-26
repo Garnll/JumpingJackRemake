@@ -10,6 +10,7 @@ public abstract class Pawn : MonoBehaviour {
     protected float velocity;
 
     protected SpriteRenderer mySpriteRenderer;
+    protected Collider2D myCollider;
     protected int currentFloor;
     protected Vector2 myDirection;
 
@@ -23,11 +24,24 @@ public abstract class Pawn : MonoBehaviour {
             }
             return mySpriteRenderer;
         }
+    } 
+
+    public Collider2D MyCollider
+    {
+        get
+        {
+            if (myCollider == null)
+            {
+                myCollider = GetComponent<Collider2D>();
+            }
+            return myCollider;
+        }
     }
 
     protected void Awake()
     {
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        myCollider = GetComponent<Collider2D>();
     }
 
     protected void Move(Vector2 direction)

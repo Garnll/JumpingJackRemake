@@ -7,11 +7,15 @@ public class PlayerPawn : Pawn, IControllable {
 
     [SerializeField]
     float maxJumpTime = 0.5f;
+    [SerializeField]
+    float maxStunTime = 4;
 
     Animator myAnimator;
     float jumpLength = -1;
+    Vector2 originalSpawnPoint;
 
     bool isJumping;
+    bool isFalling;
     bool isStunned;
     float stunTime;
     float currentStunTime;
@@ -23,15 +27,31 @@ public class PlayerPawn : Pawn, IControllable {
     public delegate void Jumping();
     public static event Jumping OnPassThruHole;
 
+    public bool IsJumping
+    {
+        get
+        {
+            return isJumping;
+        }
+    }
+
+
     private void Start()
     {
         currentFloor = 0;
+        currentStunTime = 0;
         isStunned = false;
+    }
+
+    public void SetStartPosition(Vector2 start)
+    {
+        originalSpawnPoint = start;
+        transform.position = originalSpawnPoint;
     }
 
     public void ReceiveInput(float horizontal)
     {
-        if (isStunned || isJumping)
+        if (isStunned || isJumping || isFalling)
         {
             return;
         }
@@ -43,7 +63,7 @@ public class PlayerPawn : Pawn, IControllable {
 
     public void ReceiveInput(bool jumpCommand)
     {
-        if (isStunned || !jumpCommand || isJumping)
+        if (isStunned || !jumpCommand || isJumping || isFalling)
         {
             return;
         }
@@ -84,6 +104,42 @@ public class PlayerPawn : Pawn, IControllable {
             transform.position = new Vector2(LevelController.leftLevelBorder, transform.position.y);
         }
     }
+
+    #region Fall Methods
+
+    public void StartFall()
+    {
+        if (isFalling)
+        {
+            return;
+        }
+
+        //animación de caida
+        isFalling = true;
+        StartCoroutine(Fall());
+    }
+
+    private IEnumerator Fall()
+    {
+        float fallTime = 1 / maxJumpTime * 0.8f;
+
+        Vector2 fallDestiny = new Vector2(transform.position.x, originalSpawnPoint.y + jumpLength * (currentFloor - 1));
+
+
+        while (Vector2.Distance(transform.position, fallDestiny) > 0.01f)
+        {
+            yield return new WaitForFixedUpdate();
+            transform.position = Vector2.Lerp(transform.position, fallDestiny, fallTime * Time.fixedDeltaTime);
+        }
+        ChangeFloor(-1);
+
+        isFalling = false;
+        transform.position = fallDestiny;
+        StunByFalling();
+    }
+
+    #endregion
+
     #region Jump Methods
     void StartJump()
     {
@@ -97,7 +153,7 @@ public class PlayerPawn : Pawn, IControllable {
         {
             float jumpTime = 1 / maxJumpTime;
 
-            Vector2 jumpDestiny = new Vector2(transform.position.x, transform.position.y + jumpLength);
+            Vector2 jumpDestiny = new Vector2(transform.position.x, originalSpawnPoint.y + jumpLength * (currentFloor + 1));
 
             //Animación de salto
             while (Vector2.Distance(transform.position, jumpDestiny) > 0.01f)
@@ -153,7 +209,7 @@ public class PlayerPawn : Pawn, IControllable {
 
     private void StartStunByHittingCeiling()
     {
-        isStunned = true;
+
         //Animación de que se golpea
 
         StunByHittingCeiling();
@@ -162,21 +218,56 @@ public class PlayerPawn : Pawn, IControllable {
     private void StunByHittingCeiling()
     {
         transform.position = new Vector2(transform.position.x, (transform.position.y - jumpLength) + mySpriteRenderer.bounds.extents.y);
-        StartCoroutine(Stun(3));
+
+        currentStunTime += 3;
+
+        if (!isStunned)
+        {
+            StartCoroutine(Stun());
+        }
     }
 
-    private IEnumerator Stun(float stunnedTime)
+    private void StunByFalling()
     {
-        stunTime = stunnedTime;
+        if (currentFloor > 0)
+        {
+            if (currentStunTime < 1)
+            {
+                currentStunTime = 1;
+            }
+        }
+        else
+        {
+            currentStunTime += 3;
+        }
+
+        if (!isStunned)
+        {
+            StartCoroutine(Stun());
+        }
+    }
+
+    private IEnumerator Stun()
+    {
+        isStunned = true;
 
         Debug.Log("STUNNED");
-        yield return new WaitForSeconds(stunnedTime);
+        while (currentStunTime > 0)
+        {
+            if (currentStunTime > maxStunTime)
+            {
+                currentStunTime = maxStunTime;
+            }
+            yield return new WaitForFixedUpdate();
+            currentStunTime -= Time.fixedDeltaTime;
+        }
         //Animación de que está stunneado
         EndStun();
     }
 
     private void EndStun()
     {
+        currentStunTime = 0;
         //De vuelta a Idle
         Debug.Log("No longer stunned");
         isStunned = false;
@@ -187,6 +278,11 @@ public class PlayerPawn : Pawn, IControllable {
     protected override void ChangeFloor(int floor)
     {
         currentFloor += floor;
+
+        if (currentFloor == 0)
+        {
+            //Pierde una vida
+        }
 
         if (currentFloor >= GameController.Instance.objectManager.MaxVisibleFloors)
         {
@@ -199,5 +295,6 @@ public class PlayerPawn : Pawn, IControllable {
             Debug.LogWarning("Current floor negative. This shouldn't happen");
             currentFloor = 0;
         }
+
     }
 }

@@ -317,6 +317,11 @@ Prefab:
       propertyPath: m_Name
       value: Hole (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 61150792018131968, guid: 4915053fdb35b6f42ac99c0eb70390ee,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
   m_IsPrefabAsset: 0
@@ -518,6 +523,11 @@ Prefab:
     - target: {fileID: 1966771609024250, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
       propertyPath: m_Name
       value: Hole (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 61150792018131968, guid: 4915053fdb35b6f42ac99c0eb70390ee,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
@@ -1229,6 +1239,11 @@ Prefab:
       propertyPath: m_Name
       value: Hole (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 61150792018131968, guid: 4915053fdb35b6f42ac99c0eb70390ee,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
   m_IsPrefabAsset: 0
@@ -1296,6 +1311,11 @@ Prefab:
     - target: {fileID: 1966771609024250, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
       propertyPath: m_Name
       value: Hole (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 61150792018131968, guid: 4915053fdb35b6f42ac99c0eb70390ee,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
@@ -1681,6 +1701,11 @@ Prefab:
       propertyPath: m_Name
       value: Hole (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 61150792018131968, guid: 4915053fdb35b6f42ac99c0eb70390ee,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
   m_IsPrefabAsset: 0
@@ -1737,6 +1762,11 @@ Prefab:
     - target: {fileID: 1966771609024250, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
       propertyPath: m_Name
       value: Hole (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 61150792018131968, guid: 4915053fdb35b6f42ac99c0eb70390ee,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
@@ -1915,6 +1945,11 @@ Prefab:
     - target: {fileID: 1966771609024250, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
       propertyPath: m_Name
       value: Hole (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 61150792018131968, guid: 4915053fdb35b6f42ac99c0eb70390ee,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4915053fdb35b6f42ac99c0eb70390ee, type: 2}
