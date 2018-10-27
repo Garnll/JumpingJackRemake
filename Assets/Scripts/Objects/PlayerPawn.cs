@@ -294,7 +294,7 @@ public class PlayerPawn : Pawn, IControllable {
         if (currentFloor >= GameController.Instance.objectManager.MaxVisibleFloors)
         {
             Debug.Log("Win");
-            //Ganó
+            GameController.Instance.Win();
         }
 
         if (currentFloor < 0)

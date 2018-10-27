@@ -10,16 +10,26 @@ public class ObjectManager : MonoBehaviour {
     PlayerPawn playerPawn;
     [SerializeField]
     int maxHolesInScene = 8;
+
+    [Space(10)]
+
     [SerializeField]
     HolePawn[] holePawnsInPool;
     [SerializeField]
     HolePawn[] holeGhostsPool;
 
+    [Space(10)]
+
+    [SerializeField]
+    EnemyPawn[] enemyPawnsInPool;
+    [SerializeField]
+    EnemyPawn[] enemyGhostsPool;
+
     HolePawn[] holePawnsInScene;
     int holePoolPosition = 0;
 
-    EnemyObject[] enemyObjectsInPool;
-    EnemyObject[] eEnemyObjectsInScene;
+
+    EnemyPawn[] enemyPawnsInScene;
 
     float floorSpriteSize = -1;
     int maxVisibleFloors = 8;
@@ -64,6 +74,16 @@ public class ObjectManager : MonoBehaviour {
             hole.gameObject.SetActive(false);
         }
 
+        foreach (EnemyPawn enemy in enemyPawnsInPool)
+        {
+            enemy.gameObject.SetActive(false);
+        }
+
+        foreach (EnemyPawn enemy in enemyGhostsPool)
+        {
+            enemy.gameObject.SetActive(false);
+        }
+
         PlayerPawn.OnPassThruHole += SpawnNewHole;
     }
 
@@ -71,6 +91,8 @@ public class ObjectManager : MonoBehaviour {
     {
         PlayerPawn.OnPassThruHole -= SpawnNewHole;
     }
+
+    #region Floor Methods
 
     /// <summary>
     /// Gives the position of the specified floor.
@@ -119,6 +141,9 @@ public class ObjectManager : MonoBehaviour {
         return floorSprite.bounds.center.x + floorSprite.bounds.extents.x;
     }
 
+    #endregion
+
+    #region Player Methods
 
     public void SpawnPlayerObject(float size, Vector2 position, float floorHeight)
     {
@@ -133,6 +158,10 @@ public class ObjectManager : MonoBehaviour {
 
         playerPawn.gameObject.SetActive(true);
     }
+
+    #endregion
+
+    #region Hole Methods
 
     /// <summary>
     /// Sets the first 2 holes to appear in the scene.
@@ -213,7 +242,8 @@ public class ObjectManager : MonoBehaviour {
                         newPosition.y = floors[floorNumber].transform.position.y;
                     }
                 }
-                else
+
+                if (holePawnsInScene[i].MyGhost.gameObject.activeInHierarchy)
                 {
                     if (newPosition.x >= holePawnsInScene[i].MyGhost.transform.position.x - holePawnsInScene[i].MyGhost.MySpriteRenderer.bounds.extents.x &&
                         newPosition.x <= holePawnsInScene[i].MyGhost.transform.position.x + holePawnsInScene[i].MyGhost.MySpriteRenderer.bounds.extents.x &&
@@ -308,4 +338,100 @@ public class ObjectManager : MonoBehaviour {
         spawningHole.AddGhost(holeGhostsPool[holePoolPosition]);
         holeGhostsPool[holePoolPosition].AddGhost(spawningHole);
     }
+
+    #endregion
+
+    #region Enemy Methods
+
+    public Vector3 SetEnemyPosition()
+    {
+        Vector3 newPosition = new Vector2();
+
+        newPosition.x = Random.Range(LevelController.leftLevelBorder + floorSpriteSize * 0.1f, LevelController.rightLevelBorder - floorSpriteSize * 0.1f);
+
+        int floorNumber = Random.Range(1, maxVisibleFloors + 1);
+        newPosition.y = floors[floorNumber].transform.position.y + floorSpriteSize * 0.5f;
+
+        if (enemyPawnsInScene != null)
+        {
+            CheckEnemyPositionAvailability(newPosition, floorNumber);
+        }
+
+        newPosition.z = floorNumber;
+
+        return newPosition;
+    }
+
+    /// <summary>
+    /// Checks if the position to spawn a new enemy is available.
+    /// </summary>
+    private void CheckEnemyPositionAvailability(Vector3 newPosition, int floorNumber)
+    {
+        for (int i = 0; i < enemyPawnsInScene.Length; i++)
+        {
+            if (enemyPawnsInScene[i] != null)
+            {
+                if (enemyPawnsInScene[i].gameObject.activeInHierarchy)
+                {
+                    while (newPosition.x >= enemyPawnsInScene[i].transform.position.x - enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x &&
+                        newPosition.x <= enemyPawnsInScene[i].transform.position.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x &&
+                        newPosition.y == enemyPawnsInScene[i].transform.position.y)
+                    {
+                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x;
+                    }
+                }
+
+                if (enemyPawnsInScene[i].MyGhost.gameObject.activeInHierarchy)
+                {
+                    while (newPosition.x >= enemyPawnsInScene[i].MyGhost.transform.position.x - enemyPawnsInScene[i].MyGhost.MySpriteRenderer.bounds.extents.x &&
+                        newPosition.x <= enemyPawnsInScene[i].MyGhost.transform.position.x + enemyPawnsInScene[i].MyGhost.MySpriteRenderer.bounds.extents.x &&
+                        newPosition.y == enemyPawnsInScene[i].MyGhost.transform.position.y)
+                    {
+                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x;
+                    }
+                }
+            }
+        }
+    }
+
+    public void SpawnEnemyPawns(float size,  float floorHeight, int enemyCount)
+    {
+        //TEMPORAL POR PRUEBAS
+        enemyCount = 3;
+
+        enemyPawnsInScene = new EnemyPawn[enemyCount];
+
+        for (int i = 0; i < enemyPawnsInScene.Length; i++)
+        {
+            enemyPawnsInScene[i] = enemyPawnsInPool[i];
+            enemyPawnsInPool[i] = null;
+
+            enemyPawnsInScene[i].MySpriteRenderer.size = new Vector2(size, size);
+            BoxCollider2D enemyCollider = enemyPawnsInScene[i].MyCollider as BoxCollider2D;
+
+            enemyCollider.size = new Vector2(size * 0.5f, size);
+            enemyCollider.offset = new Vector2(0, size * 0.5f);
+
+            enemyPawnsInScene[i].gameObject.SetActive(true);
+            GiveEnemyGhost(enemyPawnsInScene[i], i);
+
+            enemyPawnsInScene[i].SetStartPosition(SetEnemyPosition());
+
+            enemyPawnsInScene[i].StartMoving();
+        }
+    }
+
+    private void GiveEnemyGhost(EnemyPawn enemy, int position)
+    {
+        enemy.AddGhost(enemyGhostsPool[position]);
+        enemyGhostsPool[position].AddGhost(enemy);
+
+        enemy.MyGhost.MySpriteRenderer.size = enemy.MySpriteRenderer.size;
+        BoxCollider2D ghostCollider = enemy.MyGhost.MyCollider as BoxCollider2D;
+
+        ghostCollider.size = new Vector2(enemy.MySpriteRenderer.size.x * 0.5f, enemy.MySpriteRenderer.size.y);
+        ghostCollider.offset = new Vector2(0, enemy.MySpriteRenderer.size.y * 0.5f);
+    }
+
+    #endregion
 }

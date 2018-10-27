@@ -68,6 +68,7 @@ public class LevelController : MonoBehaviour {
         SetBorders();
         SpawnPlayer();
         SpawnHoles();
+        SpawnEnemies();
     }
 
     /// <summary>
@@ -107,5 +108,13 @@ public class LevelController : MonoBehaviour {
     private void SpawnHoles()
     {
         myObjectManager.SpawnFirstHoles(maxFloors);
+    }
+
+    private void SpawnEnemies()
+    {
+        myObjectManager.SpawnEnemyPawns(
+            playerObjectSize,
+            floorHeight,
+            myLevel - 1);
     }
 }

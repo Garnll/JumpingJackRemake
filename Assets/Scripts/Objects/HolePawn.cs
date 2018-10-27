@@ -95,7 +95,8 @@ public class HolePawn : Pawn {
     /// </summary>
     private void ActivateGhostUp()
     {
-        myGhost.transform.position = new Vector2(LevelController.rightLevelBorder + mySpriteRenderer.bounds.extents.x, GameController.Instance.objectManager.FloorPosition(currentFloor));
+        myGhost.transform.position = new Vector2(LevelController.rightLevelBorder + mySpriteRenderer.bounds.extents.x, 
+            GameController.Instance.objectManager.FloorPosition(currentFloor));
         ActivateGhost();
     }
 
@@ -104,7 +105,8 @@ public class HolePawn : Pawn {
     /// </summary>
     private void ActivateGhostDown()
     {
-        myGhost.transform.position = new Vector2(LevelController.leftLevelBorder - mySpriteRenderer.bounds.extents.x, GameController.Instance.objectManager.FloorPosition(currentFloor));
+        myGhost.transform.position = new Vector2(LevelController.leftLevelBorder - mySpriteRenderer.bounds.extents.x, 
+            GameController.Instance.objectManager.FloorPosition(currentFloor));
         ActivateGhost();
     }
 

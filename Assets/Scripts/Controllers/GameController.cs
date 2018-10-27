@@ -20,9 +20,22 @@ public class GameController : MonoBehaviour {
 
     public ObjectManager objectManager { get; set; }
 
+    int currentLevel;
+
     private void Awake()
     {
-        DontDestroyOnLoad(this);   
+        DontDestroyOnLoad(this);
+        currentLevel = 0;
+    }
+
+    public void Win()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void AdvanceToNextLevel()
+    {
+        currentLevel++;
     }
 
 }
