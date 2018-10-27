@@ -188,7 +188,8 @@ public class ObjectManager : MonoBehaviour {
     {
         Vector3 newPosition = new Vector2();
 
-        newPosition.x = Random.Range(LevelController.leftLevelBorder + floorSpriteSize * 0.1f, LevelController.rightLevelBorder - floorSpriteSize * 0.1f);
+        newPosition.x = Random.Range(LevelController.leftLevelBorder + floors[0].MySpriteRenderer.bounds.size.x * 0.1f, 
+            LevelController.rightLevelBorder - floors[0].MySpriteRenderer.bounds.size.x * 0.1f);
 
         int floorNumber = Random.Range(1, maxVisibleFloors + 1);
         newPosition.y = floors[floorNumber].transform.position.y;
@@ -347,10 +348,12 @@ public class ObjectManager : MonoBehaviour {
     {
         Vector3 newPosition = new Vector2();
 
-        newPosition.x = Random.Range(LevelController.leftLevelBorder + floorSpriteSize * 0.1f, LevelController.rightLevelBorder - floorSpriteSize * 0.1f);
+        newPosition.x = Random.Range(LevelController.leftLevelBorder + floors[0].MySpriteRenderer.bounds.size.x * 0.1f, 
+            LevelController.rightLevelBorder - floors[0].MySpriteRenderer.bounds.size.x * 0.1f);
 
-        int floorNumber = Random.Range(1, maxVisibleFloors + 1);
-        newPosition.y = floors[floorNumber].transform.position.y + floorSpriteSize * 0.5f;
+        int floorNumber = Random.Range(1, maxVisibleFloors);
+        
+        newPosition.y = floors[floorNumber].transform.position.y + floors[0].MySpriteRenderer.bounds.extents.y;
 
         if (enemyPawnsInScene != null)
         {
@@ -415,6 +418,7 @@ public class ObjectManager : MonoBehaviour {
             enemyPawnsInScene[i].gameObject.SetActive(true);
             GiveEnemyGhost(enemyPawnsInScene[i], i);
 
+            enemyPawnsInScene[i].floorOffset = floors[0].MySpriteRenderer.bounds.extents.y;
             enemyPawnsInScene[i].SetStartPosition(SetEnemyPosition());
 
             enemyPawnsInScene[i].StartMoving();

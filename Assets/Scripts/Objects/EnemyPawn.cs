@@ -7,6 +7,8 @@ public class EnemyPawn : Pawn {
 
     EnemyPawn myGhost;
     bool isExitingFloor;
+    bool isOutOfBounds;
+    public float floorOffset { get; set; }
 
     public EnemyPawn MyGhost
     {
@@ -64,12 +66,15 @@ public class EnemyPawn : Pawn {
 
     private void ActivateGhost()
     {
-        myGhost.transform.position = new Vector2(LevelController.rightLevelBorder + mySpriteRenderer.bounds.extents.x, 
-            GameController.Instance.objectManager.FloorPosition(currentFloor));
+        myGhost.transform.position = new Vector2(LevelController.rightLevelBorder + mySpriteRenderer.bounds.extents.x,
+            GameController.Instance.objectManager.FloorPosition(currentFloor) + floorOffset);
 
         myGhost.currentFloor = currentFloor;
+        myGhost.floorOffset = floorOffset;
 
         myGhost.gameObject.SetActive(true);
+        myGhost.mySpriteRenderer.enabled = mySpriteRenderer.enabled;
+        myGhost.isOutOfBounds = isOutOfBounds;
 
         myGhost.StartMoving();
     }
@@ -83,9 +88,17 @@ public class EnemyPawn : Pawn {
 
     protected override void ChangeFloor(int floor)
     {
+        if (floor == GameController.Instance.objectManager.MaxVisibleFloors)
+        {
+            mySpriteRenderer.enabled = false;
+            isOutOfBounds = true;
+        }
+
         if (floor > GameController.Instance.objectManager.MaxVisibleFloors)
         {
             currentFloor = 1;
+            mySpriteRenderer.enabled = true;
+            isOutOfBounds = false;
         }
         else if (floor < 1)
         {
