@@ -48,7 +48,7 @@ public class EnemyPawn : Pawn {
 
     protected override void CheckEndOfScreen()
     {
-        if (transform.position.x <= LevelController.leftLevelBorder && myDirection == Vector2.left)
+        if (transform.position.x <= LevelController.leftLevelBorder + (mySpriteRenderer.bounds.extents.x*1.25f) && myDirection == Vector2.left)
         {
             if (!isExitingFloor)
             {
@@ -73,8 +73,6 @@ public class EnemyPawn : Pawn {
         myGhost.floorOffset = floorOffset;
 
         myGhost.gameObject.SetActive(true);
-        myGhost.mySpriteRenderer.enabled = mySpriteRenderer.enabled;
-        myGhost.isOutOfBounds = isOutOfBounds;
 
         myGhost.StartMoving();
     }
@@ -90,15 +88,12 @@ public class EnemyPawn : Pawn {
     {
         if (floor == GameController.Instance.objectManager.MaxVisibleFloors)
         {
-            mySpriteRenderer.enabled = false;
-            isOutOfBounds = true;
+            DissapearOnLastFloor();
         }
 
         if (floor > GameController.Instance.objectManager.MaxVisibleFloors)
         {
             currentFloor = 1;
-            mySpriteRenderer.enabled = true;
-            isOutOfBounds = false;
         }
         else if (floor < 1)
         {
@@ -108,6 +103,23 @@ public class EnemyPawn : Pawn {
         {
             currentFloor = floor;
         }
+
+        if (currentFloor < GameController.Instance.objectManager.MaxVisibleFloors)
+        {
+            AppearIfNotOnLastFloor();
+        }
+    }
+
+    void DissapearOnLastFloor()
+    {
+        myGhost.mySpriteRenderer.enabled = false;
+        myGhost.isOutOfBounds = true;
+    }
+
+    void AppearIfNotOnLastFloor()
+    {
+        myGhost.mySpriteRenderer.enabled = true;
+        myGhost.isOutOfBounds = false;
     }
 
 }

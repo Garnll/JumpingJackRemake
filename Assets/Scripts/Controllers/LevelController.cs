@@ -12,6 +12,8 @@ public class LevelController : MonoBehaviour {
     float offsetPercentage = 0.2f;
     [SerializeField]
     int maxFloors = 8;
+    [SerializeField]
+    GameObject[] masks;
 
     ObjectManager myObjectManager;
 
@@ -69,6 +71,7 @@ public class LevelController : MonoBehaviour {
         SpawnPlayer();
         SpawnHoles();
         SpawnEnemies();
+        SpawnMasks();
     }
 
     /// <summary>
@@ -116,5 +119,28 @@ public class LevelController : MonoBehaviour {
             playerObjectSize,
             floorHeight,
             myLevel - 1);
+    }
+
+    private void SpawnMasks()
+    {
+        Vector2 positionLeft = new Vector2(
+             (leftLevelBorder + cam.ScreenToWorldPoint(new Vector2(0, 0)).x) / 2,
+             0);
+
+        float size = masks[0].GetComponent<Renderer>().bounds.size.x;
+        float newSize = leftLevelBorder - cam.ScreenToWorldPoint(new Vector2(0, 0)).x;
+
+        Vector3 rescale = masks[0].transform.localScale;
+        rescale.x = newSize * rescale.x / size;
+
+        masks[0].transform.localScale = rescale;
+        masks[0].transform.position = positionLeft;
+
+        Vector2 positionRight = new Vector2(
+            (rightLevelBorder + cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth, 0)).x) / 2,
+            0);
+
+        masks[1].transform.localScale = rescale;
+        masks[1].transform.position = positionRight;
     }
 }
