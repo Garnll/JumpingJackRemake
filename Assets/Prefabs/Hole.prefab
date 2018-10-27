@@ -164,11 +164,11 @@ SpriteMask:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 245789298a9071c4c813fc136a3f0601, type: 3}
   m_MaskAlphaCutoff: 0
-  m_FrontSortingLayerID: -1362081917
+  m_FrontSortingLayerID: -1895593779
   m_BackSortingLayerID: -1362081917
-  m_FrontSortingLayer: 1
-  m_BackSortingLayer: 1
-  m_FrontSortingOrder: 0
-  m_BackSortingOrder: 0
-  m_IsCustomRangeActive: 0
+  m_FrontSortingLayer: 4
+  m_BackSortingLayer: 2
+  m_FrontSortingOrder: 1
+  m_BackSortingOrder: -1
+  m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0

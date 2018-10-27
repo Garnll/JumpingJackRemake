@@ -18,6 +18,25 @@ public class EnemyPawn : Pawn {
         }
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (isOutOfBounds)
+        {
+            return;
+        }
+
+        Attack(collision.GetComponent<PlayerPawn>());
+    }
+
+    private void Attack(PlayerPawn player)
+    {
+        //Inicia animación de ataque?
+        Debug.Log("Attack!");
+
+        player.Damage();
+    }
+
     public void SetStartPosition(Vector3 position)
     {
         transform.position = (Vector2)position;

@@ -23,6 +23,7 @@ public class PlayerPawn : Pawn, IControllable {
 
     bool isJumping;
     bool isFalling;
+    bool gotDamaged;
     bool isStunned;
     float stunTime;
     float currentStunTime;
@@ -48,6 +49,9 @@ public class PlayerPawn : Pawn, IControllable {
         currentFloor = 0;
         currentStunTime = 0;
         isStunned = false;
+        isJumping = false;
+        isFalling = false;
+        gotDamaged = false;
     }
 
     public void SetStartPosition(Vector2 start)
@@ -58,7 +62,7 @@ public class PlayerPawn : Pawn, IControllable {
 
     public void ReceiveInput(float horizontal)
     {
-        if (isStunned || isJumping || isFalling)
+        if (isStunned || isJumping || isFalling || gotDamaged)
         {
             return;
         }
@@ -70,7 +74,7 @@ public class PlayerPawn : Pawn, IControllable {
 
     public void ReceiveInput(bool jumpCommand)
     {
-        if (isStunned || !jumpCommand || isJumping || isFalling)
+        if (isStunned || !jumpCommand || isJumping || isFalling || gotDamaged)
         {
             return;
         }
@@ -212,6 +216,24 @@ public class PlayerPawn : Pawn, IControllable {
 
     #endregion
 
+    #region Damage Methods
+
+    public void Damage()
+    {
+        if (isJumping)
+        {
+            return;
+        }
+
+        gotDamaged = true;
+        //Iniciar animación de estar herido
+
+        StunByDamagedByHazard();
+    }
+
+
+    #endregion
+
     #region Stun Methods
 
     private void StartStunByHittingCeiling()
@@ -232,6 +254,21 @@ public class PlayerPawn : Pawn, IControllable {
         {
             StartCoroutine(Stun());
         }
+    }
+
+    private void StunByDamagedByHazard()
+    {
+        if (currentStunTime < 2)
+        {
+            currentStunTime = 2;
+        }
+
+        if (!isStunned)
+        {
+            StartCoroutine(Stun());
+        }
+
+        gotDamaged = false;
     }
 
     private void StunByFalling()
