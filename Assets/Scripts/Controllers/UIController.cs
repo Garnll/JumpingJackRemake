@@ -1,16 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class UIController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField]
+    Image gameAreaUI;
+    [SerializeField]
+    TextMeshProUGUI scoreText;
+
+    float textHeight;
+
+	public void SetGameArea(float width, float height)
+    {
+        gameAreaUI.rectTransform.sizeDelta = new Vector2(width, height);
+    }
+
+    public void SetTextHeight(float height)
+    {
+        textHeight = height;
+
+        scoreText.rectTransform.sizeDelta = new Vector2(scoreText.rectTransform.sizeDelta.x, height);
+    }
+
 }

@@ -68,6 +68,8 @@ public class LevelController : MonoBehaviour {
 
         SpawnFloors();
         SetBorders();
+        SetUI();
+
         SpawnPlayer();
         SpawnHoles();
         SpawnEnemies();
@@ -92,6 +94,23 @@ public class LevelController : MonoBehaviour {
     {
         leftLevelBorder = myObjectManager.CheckLeftLevelBorder();
         rightLevelBorder = myObjectManager.CheckRightLevelBorder();
+    }
+
+    /// <summary>
+    /// Tells the GameController to set up the UI
+    /// </summary>
+    private void SetUI()
+    {
+        GameController.Instance.SetUpUI(CheckLevelWidth(), levelHeight, floorHeight);
+    }
+
+    /// <summary>
+    /// Checks the true measure in pixels of the level Width
+    /// </summary>
+    /// <returns></returns>
+    private float CheckLevelWidth()
+    {
+        return cam.WorldToScreenPoint(new Vector2(rightLevelBorder, 0)).x - cam.WorldToScreenPoint(new Vector2(leftLevelBorder, 0)).x;
     }
 
     /// <summary>

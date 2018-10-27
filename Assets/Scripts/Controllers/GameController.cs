@@ -18,6 +18,9 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    [SerializeField]
+    UIController uiController;
+
     public ObjectManager objectManager { get; set; }
 
     int currentLevel;
@@ -36,6 +39,17 @@ public class GameController : MonoBehaviour {
     public void AdvanceToNextLevel()
     {
         currentLevel++;
+    }
+
+    public void SetUpUI(float width, float height, float floorHeight)
+    {
+        if (uiController == null)
+        {
+            uiController = GameObject.FindObjectOfType<UIController>();
+        }
+
+        uiController.SetGameArea(width, height);
+        uiController.SetTextHeight(floorHeight);
     }
 
 }
