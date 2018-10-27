@@ -94,7 +94,7 @@ public class ObjectManager : MonoBehaviour {
         {
             floors[floorNumber].gameObject.SetActive(true);
         }
-    
+
         SpriteRenderer floorSprite = floors[floorNumber].GetComponent<SpriteRenderer>();
 
         floorSprite.size = new Vector2(width / 100, floorSprite.size.y);
@@ -163,9 +163,88 @@ public class ObjectManager : MonoBehaviour {
 
         int floorNumber = Random.Range(1, maxVisibleFloors + 1);
         newPosition.y = floors[floorNumber].transform.position.y;
+
+        if (holePoolPosition >= 2)
+        {
+            CheckHolePositionAvailability(newPosition, floorNumber);
+        }
+
         newPosition.z = floorNumber;
 
         return newPosition;
+    }
+
+    /// <summary>
+    /// Checks wheter the position to spawn a new hole is available.
+    /// </summary>
+    private void CheckHolePositionAvailability(Vector3 newPosition, int floorNumber)
+    {
+        for (int i = 0; i < holePawnsInScene.Length; i++)
+        {
+            if (holePawnsInScene[i] != null)
+            {
+                if (holePawnsInScene[i].gameObject.activeInHierarchy)
+                {
+                    if (newPosition.x >= holePawnsInScene[i].transform.position.x - holePawnsInScene[i].MySpriteRenderer.bounds.extents.x &&
+                        newPosition.x <= holePawnsInScene[i].transform.position.x + holePawnsInScene[i].MySpriteRenderer.bounds.extents.x &&
+                        newPosition.y == holePawnsInScene[i].transform.position.y)
+                    {
+                        if (floorNumber == 1)
+                        {
+                            floorNumber = Random.Range(2, floorNumber);
+                        }
+                        else if (floorNumber == maxVisibleFloors + 1)
+                        {
+                            floorNumber = Random.Range(1, floorNumber);
+                        }
+                        else
+                        {
+                            int select = Random.Range(0, 1);
+                            if (select == 0)
+                            {
+                                floorNumber = Random.Range(1, floorNumber);
+                            }
+                            else
+                            {
+                                floorNumber = Random.Range(floorNumber, maxVisibleFloors + 1);
+                            }
+                        }
+
+                        newPosition.y = floors[floorNumber].transform.position.y;
+                    }
+                }
+                else
+                {
+                    if (newPosition.x >= holePawnsInScene[i].MyGhost.transform.position.x - holePawnsInScene[i].MyGhost.MySpriteRenderer.bounds.extents.x &&
+                        newPosition.x <= holePawnsInScene[i].MyGhost.transform.position.x + holePawnsInScene[i].MyGhost.MySpriteRenderer.bounds.extents.x &&
+                        newPosition.y == holePawnsInScene[i].MyGhost.transform.position.y)
+                    {
+                        if (floorNumber == 1)
+                        {
+                            floorNumber = Random.Range(2, floorNumber);
+                        }
+                        else if (floorNumber == maxVisibleFloors + 1)
+                        {
+                            floorNumber = Random.Range(1, floorNumber);
+                        }
+                        else
+                        {
+                            int select = Random.Range(0, 1);
+                            if (select == 0)
+                            {
+                                floorNumber = Random.Range(1, floorNumber);
+                            }
+                            else
+                            {
+                                floorNumber = Random.Range(floorNumber, maxVisibleFloors + 1);
+                            }
+                        }
+
+                        newPosition.y = floors[floorNumber].transform.position.y;
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>

@@ -5,16 +5,28 @@ using UnityEngine;
 
 public class HolePawn : Pawn {
 
+    [SerializeField]
+    Vector2 expectedScale;
+
     HolePawn myGhost;
     bool isExitingFloor;
+
 
     private void Start()
     {
         transform.localScale = new Vector2(
-            ((25 * Screen.width) / 800),
-            ((2.5f * Screen.height) / 600));
+            ((expectedScale.x * Screen.width) / 800),
+            ((expectedScale.y * Screen.height) / 600));
 
         isExitingFloor = false;
+    }
+
+    public HolePawn MyGhost
+    {
+        get
+        {
+            return myGhost;
+        }
     }
 
     public void GiveSpawningFloor(Vector2 position, int floorNumber)
