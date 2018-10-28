@@ -51,8 +51,8 @@ public class LevelController : MonoBehaviour {
         //Posiciones en X
 
         horizontalOffset = cam.pixelWidth * offsetPercentage * 0.5f;
-        levelWidth = cam.pixelWidth - horizontalOffset;
-
+        //levelWidth = cam.pixelWidth - horizontalOffset;
+        levelWidth = Vector2.Distance(cam.ScreenToWorldPoint(new Vector2(horizontalOffset, 0)), cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth, 0)));
 
 
         if (myObjectManager.FloorQuantityInPool < maxFloors + 1) //se incluye el piso 0

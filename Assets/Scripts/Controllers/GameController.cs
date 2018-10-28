@@ -21,6 +21,10 @@ public class GameController : MonoBehaviour {
     [SerializeField]
     UIController uiController;
 
+    float score;
+    float highScore;
+    int lifes;
+
     public ObjectManager objectManager { get; set; }
 
     int currentLevel;
@@ -48,8 +52,10 @@ public class GameController : MonoBehaviour {
             uiController = GameObject.FindObjectOfType<UIController>();
         }
 
+        uiController.SetTextAreaSize(floorHeight, width * 0.5f);
         uiController.SetGameArea(width, height);
-        uiController.SetTextHeight(floorHeight);
+
+        uiController.SetScore(highScore, score);
     }
 
 }

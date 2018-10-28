@@ -119,7 +119,16 @@ public class ObjectManager : MonoBehaviour {
 
         SpriteRenderer floorSprite = floors[floorNumber].GetComponent<SpriteRenderer>();
 
-        floorSprite.size = new Vector2(width / 100, floorSprite.size.y);
+        float size = floorSprite.bounds.size.x;
+
+
+        Vector3 rescale = floors[floorNumber].transform.localScale;
+        rescale.x = (width * rescale.x) / size;
+
+        floors[floorNumber].transform.localScale = rescale;
+
+        //floorSprite.size = new Vector2(width, floorSprite.size.y);
+        //floors[floorNumber].transform.localScale = new Vector2(width, floors[floorNumber].transform.localScale.y);
 
         if (floorSpriteSize < 0)
         {

@@ -18,11 +18,27 @@ public class UIController : MonoBehaviour {
         gameAreaUI.rectTransform.sizeDelta = new Vector2(width, height);
     }
 
-    public void SetTextHeight(float height)
+    public void SetTextAreaSize(float height, float width)
     {
         textHeight = height;
 
-        scoreText.rectTransform.sizeDelta = new Vector2(scoreText.rectTransform.sizeDelta.x, height);
+        Vector2 newSize = new Vector2(width, height);
+
+        scoreText.rectTransform.sizeDelta = newSize;
+
+        SetFontSize();
+    }
+
+    private void SetFontSize()
+    {
+        float newFontSize = ((gameAreaUI.rectTransform.sizeDelta.x * gameAreaUI.rectTransform.sizeDelta.y) * scoreText.fontSize) / (570 * 480);
+
+        scoreText.fontSize = newFontSize;
+    }
+
+    public void SetScore(float hiScore, float score)
+    {
+        scoreText.text = string.Format("HI" + hiScore.ToString("00000") + "  " + "SC" + score.ToString("00000"));
     }
 
 }
