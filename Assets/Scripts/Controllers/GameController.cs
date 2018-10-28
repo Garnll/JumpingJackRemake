@@ -20,9 +20,11 @@ public class GameController : MonoBehaviour {
 
     [SerializeField]
     UIController uiController;
+    [SerializeField]
+    int initialLifes = 6;
 
-    float score;
-    float highScore;
+    int score;
+    int highScore;
     int lifes;
 
     public ObjectManager objectManager { get; set; }
@@ -33,6 +35,9 @@ public class GameController : MonoBehaviour {
     {
         DontDestroyOnLoad(this);
         currentLevel = 0;
+        score = 0;
+        highScore = 0; //Temporal, falta hacer la puntuación alta.
+        lifes = initialLifes;
     }
 
     public void Win()
@@ -55,7 +60,25 @@ public class GameController : MonoBehaviour {
         uiController.SetTextAreaSize(floorHeight, width * 0.5f);
         uiController.SetGameArea(width, height);
 
+        ChangeScore(score);
+        ChangeLifeCount(0);
+    }
+
+    public void ChangeHighScore(int newHighScore)
+    {
+        highScore = newHighScore;
+    }
+
+    public void ChangeScore(int score)
+    {
+        score += score;
         uiController.SetScore(highScore, score);
+    }
+
+    public void ChangeLifeCount(int change)
+    {
+        lifes += change;
+        uiController.SetLifes(lifes);
     }
 
 }

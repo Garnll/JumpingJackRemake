@@ -50,8 +50,7 @@ public class LevelController : MonoBehaviour {
 
         //Posiciones en X
 
-        horizontalOffset = cam.pixelWidth * offsetPercentage * 0.5f;
-        //levelWidth = cam.pixelWidth - horizontalOffset;
+        horizontalOffset = cam.pixelWidth * offsetPercentage;
         levelWidth = Vector2.Distance(cam.ScreenToWorldPoint(new Vector2(horizontalOffset, 0)), cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth, 0)));
 
 

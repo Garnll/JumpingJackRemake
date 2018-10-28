@@ -474,7 +474,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1795458096264540, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_Name
@@ -1665,8 +1665,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2204,7 +2204,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1887442121}
   - {fileID: 143130352}
   - {fileID: 1475545191}
   - {fileID: 459358471}
@@ -2213,6 +2212,7 @@ Transform:
   - {fileID: 511333529}
   - {fileID: 1799308679}
   - {fileID: 1753609846}
+  - {fileID: 1887442121}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2530,7 +2530,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
@@ -2572,7 +2572,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1795458096264540, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_Name
@@ -2920,7 +2920,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1795458096264540, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_Name
@@ -2966,7 +2966,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1795458096264540, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_Name
@@ -3080,7 +3080,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1795458096264540, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_Name
@@ -3262,7 +3262,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1795458096264540, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_Name
@@ -3434,6 +3434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiController: {fileID: 0}
+  initialLifes: 6
 --- !u!4 &1511993001
 Transform:
   m_ObjectHideFlags: 0
@@ -3994,7 +3995,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1795458096264540, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_Name
@@ -4593,7 +4594,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145348987899776, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1795458096264540, guid: ad713ae609d754c44b53639ea5fbce2d, type: 2}
       propertyPath: m_Name
@@ -5048,3 +5049,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameAreaUI: {fileID: 1975617693}
   scoreText: {fileID: 732386688}
+  lifeImage: {fileID: 114352610426144888, guid: 5d3ec5ec6b66a3d45ad93510e110c77e,
+    type: 2}
