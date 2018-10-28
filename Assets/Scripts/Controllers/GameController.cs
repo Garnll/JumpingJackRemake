@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour {
     int initialLifes = 6;
     [SerializeField]
     int maxLevels = 21;
+    [SerializeField]
+    int[] levelsToGiveLife;
 
     int score;
     int highScore;
@@ -125,6 +127,20 @@ public class GameController : MonoBehaviour {
 
         ChangeScore(score);
         ChangeLifeCount(0);
+    }
+
+    public bool ShouldGiveExtraLife()
+    {
+        for (int i = 0; i < levelsToGiveLife.Length; i++)
+        {
+            if (currentLevel == levelsToGiveLife[i])
+            {
+                ChangeLifeCount(+1);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool ShouldChangeHighScore()

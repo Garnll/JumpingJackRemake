@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Text;
 
@@ -12,11 +13,22 @@ public class LoadingScreenController : MonoBehaviour {
     GameObject nextLevelBox;
     [SerializeField]
     GameObject pressBox;
+
     [Space(10)]
     [SerializeField]
     float textVelocity = 0.1f;
     [SerializeField] [TextArea]
     string[] poemFragment;
+
+    [Space(10)]
+    [SerializeField]
+    Image extraLifeBox;
+    [SerializeField]
+    TextMeshProUGUI extraLifeText;
+    [SerializeField]
+    Color color1, color2;
+    [SerializeField]
+    float changeColorTime = 0.5f;
 
 
     bool writing;
@@ -25,6 +37,7 @@ public class LoadingScreenController : MonoBehaviour {
     {
         Time.timeScale = 1;
 
+        extraLifeBox.gameObject.SetActive(false);
         nextLevelBox.SetActive(true);
         pressBox.SetActive(false);
         writing = true;
@@ -96,7 +109,34 @@ public class LoadingScreenController : MonoBehaviour {
             yield return new WaitForSeconds(textVelocity);
         }
 
+        if (GameController.Instance.ShouldGiveExtraLife())
+        {
+            extraLifeBox.gameObject.SetActive(true);
+            StartCoroutine(AnimateHighBox());
+        }
+
+        SetPressBoxActive();
+        
+    }
+
+    private void SetPressBoxActive()
+    {
         pressBox.SetActive(true);
         writing = false;
+    }
+
+    private IEnumerator AnimateHighBox()
+    {
+        Color buffer = color1;
+        extraLifeBox.color = color1;
+        extraLifeText.color = color2;
+
+        while (true)
+        {
+            buffer = extraLifeBox.color;
+            extraLifeBox.color = extraLifeText.color;
+            extraLifeText.color = buffer;
+            yield return new WaitForSeconds(changeColorTime);
+        }
     }
 }
