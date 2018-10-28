@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour {
     int lifes;
 
     public ObjectManager objectManager { get; set; }
+    HighScoreManager highScoreManager;
 
     int currentLevel;
 
@@ -44,6 +45,9 @@ public class GameController : MonoBehaviour {
     private void Awake()
     {
         DontDestroyOnLoad(this);
+        highScoreManager = new HighScoreManager();
+        highScoreManager.LoadHighScore();
+
         currentLevel = 4; //Debe ser cero, hecho for testing
         score = 0;
         highScore = 0; //Temporal, falta hacer la puntuación alta.
@@ -80,7 +84,12 @@ public class GameController : MonoBehaviour {
 
     public void ChangeHighScore(int newHighScore)
     {
-        highScore = newHighScore;
+        if (newHighScore > highScore)
+        {
+            //Mensaje de WOW ganaste
+            highScore = newHighScore;
+            highScoreManager.ChangeHighscore(highScore);
+        }
     }
 
     public void ChangeScore(int newScore)
