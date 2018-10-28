@@ -102,7 +102,7 @@ public class GameController : MonoBehaviour {
     {
         if (currentLevel <= maxLevels)
         {
-            SceneManager.LoadScene("Level" + 0);
+            SceneManager.LoadScene("Level" + 0); //HECHO POR PRUEBAS, CAMBIAR
         }
         else
         {
