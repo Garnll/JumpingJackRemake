@@ -31,6 +31,9 @@ public class GameOverScreenController : MonoBehaviour {
     private void Awake()
     {
         Time.timeScale = 1;
+
+        newHighBox.gameObject.SetActive(false);
+
         pressText.text = "";
         scoreText.text = "";
         writing = false;
@@ -87,9 +90,10 @@ public class GameOverScreenController : MonoBehaviour {
     {
         if (GameController.Instance.ShouldChangeHighScore())
         {
+            newHighBox.gameObject.SetActive(true);
             StartCoroutine(AnimateHighBox());
         }
-
+        StartCoroutine(AnimatePressText());
     }
 
     private IEnumerator AnimateHighBox()

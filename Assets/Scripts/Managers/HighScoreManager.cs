@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HighScoreManager {
 
+
     static int highScore = 0;
 
     public int currentHighScore
@@ -22,7 +23,7 @@ public class HighScoreManager {
         if (File.Exists(dataPath))
         {
             string dataAsJson = File.ReadAllText(dataPath);
-            highScore = JsonUtility.FromJson<int>(dataAsJson);
+            highScore = int.Parse(dataAsJson);
         }
     }
 
@@ -34,7 +35,7 @@ public class HighScoreManager {
 
     private void SaveHighScore()
     {
-        string dataAsJson = JsonUtility.ToJson(highScore);
+        string dataAsJson = highScore.ToString();
         string dataPath = Path.Combine(Application.persistentDataPath, "hs.json");
         
         File.WriteAllText(dataPath, dataAsJson);

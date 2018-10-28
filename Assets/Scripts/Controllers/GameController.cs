@@ -63,11 +63,9 @@ public class GameController : MonoBehaviour {
     {
         DontDestroyOnLoad(this);
         highScoreManager = new HighScoreManager();
-        highScoreManager.LoadHighScore();
 
         currentLevel = 1;
         score = 0;
-        highScore = highScoreManager.currentHighScore;
         lifes = initialLifes;
     }
 
@@ -118,6 +116,9 @@ public class GameController : MonoBehaviour {
         {
             uiController = GameObject.FindObjectOfType<UIController>();
         }
+
+        highScoreManager.LoadHighScore();
+        highScore = highScoreManager.currentHighScore;
 
         uiController.SetTextAreaSize(floorHeight, width * 0.5f);
         uiController.SetGameArea(width, height);

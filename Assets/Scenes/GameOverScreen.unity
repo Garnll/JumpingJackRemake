@@ -253,6 +253,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 507446963}
+  - component: {fileID: 507446964}
   m_Layer: 0
   m_Name: GameOverScreenController
   m_TagString: Untagged
@@ -273,6 +274,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &507446964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 507446962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b452b175ff543bd40ba0e52030ad9c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textVelocity: 0.05
+  scoreText: {fileID: 1427741252}
+  newHighBox: {fileID: 1752417636}
+  newHighText: {fileID: 1191278387}
+  color1: {r: 0.9215687, g: 0.9215687, b: 0.9215687, a: 1}
+  color2: {r: 1, g: 0, b: 0.83921576, a: 1}
+  changeColorTime: 0.5
+  pressText: {fileID: 936799399}
 --- !u!1 &569074914
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,7 +459,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 272
+  m_textAlignment: 258
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 4
   m_wordSpacing: 10
