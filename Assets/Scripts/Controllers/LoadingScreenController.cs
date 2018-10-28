@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 using System.Text;
 
 public class LoadingScreenController : MonoBehaviour {
@@ -11,6 +10,8 @@ public class LoadingScreenController : MonoBehaviour {
     TextMeshProUGUI nextLevelText, poemText;
     [SerializeField]
     GameObject nextLevelBox;
+    [SerializeField]
+    GameObject pressBox;
     [Space(10)]
     [SerializeField]
     float textVelocity = 0.1f;
@@ -22,7 +23,10 @@ public class LoadingScreenController : MonoBehaviour {
 
     private void Awake()
     {
+        Time.timeScale = 1;
+
         nextLevelBox.SetActive(true);
+        pressBox.SetActive(false);
         writing = true;
 
         CheckNextLevel();
@@ -48,18 +52,32 @@ public class LoadingScreenController : MonoBehaviour {
             return;
         }
 
-        nextLevelText.text = string.Format("NEXT LEVEL - {0} HAZARD", (GameController.Instance.CurrentLevel - 1).ToString());
+        if (GameController.Instance.CurrentLevel - 1 == 1)
+        {
+            nextLevelText.text = string.Format("NEXT LEVEL - {0} HAZARD", (GameController.Instance.CurrentLevel - 1).ToString());
+        }
+        else
+        {
+            nextLevelText.text = string.Format("NEXT LEVEL - {0} HAZARDS", (GameController.Instance.CurrentLevel - 1).ToString());
+        }
     }
 
     void CheckPoem()
     {
-        StartCoroutine(AnimateText(poemFragment[GameController.Instance.CurrentLevel - 2]));
-        //En el nivel 1 no hay poema, y el nivel 2 equivale a la posición 0 del array.
+        if (GameController.Instance.CurrentLevel > 1)
+        {
+            StartCoroutine(AnimateText(poemFragment[GameController.Instance.CurrentLevel - 2]));//En el nivel 1 no hay poema, y el nivel 2 equivale a la posición 0 del array.
+        }
+        else
+        {
+            pressBox.SetActive(true);
+        }
+
     }
 
     void GoToNextLevel()
     {
-        SceneManager.LoadScene("Level" + GameController.Instance.CurrentLevel);
+        GameController.Instance.AdvanceToNextLevel();
     }
 
 
@@ -78,6 +96,7 @@ public class LoadingScreenController : MonoBehaviour {
             yield return new WaitForSeconds(textVelocity);
         }
 
+        pressBox.SetActive(true);
         writing = false;
     }
 }

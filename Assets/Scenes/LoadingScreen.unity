@@ -285,10 +285,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e425f1a594165da4c9b50546daec249a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleText: {fileID: 1667971006}
   nextLevelText: {fileID: 1427741252}
   poemText: {fileID: 528626061}
-  pressText: {fileID: 936799399}
+  nextLevelBox: {fileID: 25681659}
+  pressBox: {fileID: 936799397}
+  textVelocity: 0.05
+  poemFragment:
+  - There was one's a bitch >:C
+  - why are you displaying this
 --- !u!1 &528626059
 GameObject:
   m_ObjectHideFlags: 0

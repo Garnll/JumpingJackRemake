@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -56,10 +57,19 @@ public class GameController : MonoBehaviour {
         highScoreManager = new HighScoreManager();
         highScoreManager.LoadHighScore();
 
-        currentLevel = 4; //Debe ser cero, hecho for testing
+        currentLevel = 0;
         score = 0;
         highScore = 0; //Temporal, falta hacer la puntuación alta.
         lifes = initialLifes;
+    }
+
+    private void Update()
+    {
+        //DONE FOR TESTING
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Win();
+        }
     }
 
     public void Win()
@@ -68,12 +78,18 @@ public class GameController : MonoBehaviour {
 
         //Suena música de ganar
 
-        //Pasa a escena de next level
+        GoToLoadingScreen();
+    }
+
+    private void GoToLoadingScreen()
+    {
+        currentLevel++;
+        SceneManager.LoadScene("LoadingScreen");
     }
 
     public void AdvanceToNextLevel()
     {
-        currentLevel++;
+        SceneManager.LoadScene("Level" + 0);
     }
 
     public void SetUpUI(float width, float height, float floorHeight)
