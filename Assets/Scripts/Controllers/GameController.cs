@@ -42,6 +42,14 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    public int MaxLevels
+    {
+        get
+        {
+            return maxLevels;
+        }
+    }
+
     private void Awake()
     {
         DontDestroyOnLoad(this);
