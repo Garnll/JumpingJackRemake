@@ -259,9 +259,9 @@ public class PlayerPawn : Pawn, IControllable {
 
     private void StunByDamagedByHazard()
     {
-        if (currentStunTime < 2)
+        if (currentStunTime < enemyStunTime)
         {
-            currentStunTime = 2;
+            currentStunTime = enemyStunTime;
         }
 
         if (!isStunned)

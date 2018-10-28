@@ -51,15 +51,23 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    public int Score
+    {
+        get
+        {
+            return score;
+        }
+    }
+
     private void Awake()
     {
         DontDestroyOnLoad(this);
         highScoreManager = new HighScoreManager();
         highScoreManager.LoadHighScore();
 
-        currentLevel = 0;
+        currentLevel = 1;
         score = 0;
-        highScore = 0; //Temporal, falta hacer la puntuación alta.
+        highScore = highScoreManager.currentHighScore;
         lifes = initialLifes;
     }
 
@@ -81,6 +89,11 @@ public class GameController : MonoBehaviour {
         GoToLoadingScreen();
     }
 
+    private void GoToGameOverScreen()
+    {
+        SceneManager.LoadScene("GameOverScreen");
+    }
+
     private void GoToLoadingScreen()
     {
         currentLevel++;
@@ -89,7 +102,14 @@ public class GameController : MonoBehaviour {
 
     public void AdvanceToNextLevel()
     {
-        SceneManager.LoadScene("Level" + 0);
+        if (currentLevel <= maxLevels)
+        {
+            SceneManager.LoadScene("Level" + 0);
+        }
+        else
+        {
+            GoToGameOverScreen();
+        }
     }
 
     public void SetUpUI(float width, float height, float floorHeight)
@@ -106,14 +126,16 @@ public class GameController : MonoBehaviour {
         ChangeLifeCount(0);
     }
 
-    public void ChangeHighScore(int newHighScore)
+    public bool ShouldChangeHighScore()
     {
-        if (newHighScore > highScore)
+        if (score > highScore)
         {
-            //Mensaje de WOW ganaste
-            highScore = newHighScore;
+            highScore = score;
             highScoreManager.ChangeHighscore(highScore);
+            return true;
         }
+
+        return false;
     }
 
     public void ChangeScore(int newScore)
@@ -139,7 +161,15 @@ public class GameController : MonoBehaviour {
 
         //Suena música de perdida
 
-        //Pasa a escena de game over
+        GoToGameOverScreen();
+    }
+
+    public void Restart()
+    {
+        currentLevel = 1;
+        score = 0;
+        lifes = initialLifes;
+        AdvanceToNextLevel();
     }
 
 }

@@ -7,6 +7,14 @@ public class HighScoreManager {
 
     static int highScore = 0;
 
+    public int currentHighScore
+    {
+        get
+        {
+            return highScore;
+        }
+    }
+
     public void LoadHighScore()
     {
         string dataPath = Path.Combine(Application.persistentDataPath, "hs.json");
@@ -21,6 +29,7 @@ public class HighScoreManager {
     public void ChangeHighscore(int newHighscore)
     {
         highScore = newHighscore;
+        SaveHighScore();
     }
 
     private void SaveHighScore()
