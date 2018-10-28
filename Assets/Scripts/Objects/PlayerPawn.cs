@@ -241,6 +241,7 @@ public class PlayerPawn : Pawn, IControllable {
 
         //Animación de que se golpea
 
+        ChangeFloor(0);
         StunByHittingCeiling();
     }
 
@@ -325,7 +326,7 @@ public class PlayerPawn : Pawn, IControllable {
 
         if (currentFloor == 0)
         {
-            //Pierde una vida
+            LoseALife();
         }
 
         if (currentFloor >= GameController.Instance.objectManager.MaxVisibleFloors)
@@ -340,5 +341,10 @@ public class PlayerPawn : Pawn, IControllable {
             currentFloor = 0;
         }
 
+    }
+
+    void LoseALife()
+    {
+        GameController.Instance.ChangeLifeCount(-1);
     }
 }

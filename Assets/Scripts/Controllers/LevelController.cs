@@ -119,7 +119,7 @@ public class LevelController : MonoBehaviour {
     {
         myObjectManager.SpawnPlayerObject(
             playerObjectSize,
-            cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.5f, offset)),
+            cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.35f, offset)),
             floorHeight);
     }
 
@@ -133,6 +133,11 @@ public class LevelController : MonoBehaviour {
 
     private void SpawnEnemies()
     {
+        if (myLevel <= 0)
+        {
+            myLevel = 1;
+        }
+
         myObjectManager.SpawnEnemyPawns(
             playerObjectSize,
             floorHeight,

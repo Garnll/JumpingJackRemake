@@ -1246,7 +1246,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &526945843
 Prefab:
@@ -3435,6 +3435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiController: {fileID: 0}
   initialLifes: 6
+  maxLevels: 21
 --- !u!4 &1511993001
 Transform:
   m_ObjectHideFlags: 0
@@ -3755,7 +3756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8afa5a0e3555e8f4da8d90c0c02282b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myLevel: 0
+  myLevel: 4
   offsetPercentage: 0.1
   maxFloors: 8
   masks:
@@ -3784,6 +3785,7 @@ MonoBehaviour:
   - {fileID: 1753609847}
   playerPawn: {fileID: 947795739}
   maxHolesInScene: 8
+  pointsForPassing: 5
   holePawnsInPool:
   - {fileID: 2045070302}
   - {fileID: 1479100900}
@@ -3857,7 +3859,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1652316827 stripped
 Transform:
@@ -3909,7 +3911,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1672014550
 GameObject:
@@ -4535,14 +4537,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

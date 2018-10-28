@@ -19,6 +19,8 @@ public class HolePawn : Pawn {
             ((expectedScale.y * Screen.height) / 600));
 
         isExitingFloor = false;
+
+
     }
 
     public HolePawn MyGhost

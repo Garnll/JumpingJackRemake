@@ -14,6 +14,8 @@ public class ObjectManager : MonoBehaviour {
     [Space(10)]
 
     [SerializeField]
+    int pointsForPassing = 5;
+    [SerializeField]
     HolePawn[] holePawnsInPool;
     [SerializeField]
     HolePawn[] holeGhostsPool;
@@ -84,12 +86,12 @@ public class ObjectManager : MonoBehaviour {
             enemy.gameObject.SetActive(false);
         }
 
-        PlayerPawn.OnPassThruHole += SpawnNewHole;
+        PlayerPawn.OnPassThruHole += PlayerPassedHole;
     }
 
     private void OnDestroy()
     {
-        PlayerPawn.OnPassThruHole -= SpawnNewHole;
+        PlayerPawn.OnPassThruHole -= PlayerPassedHole;
     }
 
     #region Floor Methods
@@ -136,6 +138,11 @@ public class ObjectManager : MonoBehaviour {
         }
 
         floors[floorNumber].transform.position = new Vector2(floorPosition.x, floorPosition.y);
+
+        if (floorNumber == 0)
+        {
+            floors[floorNumber].gameObject.SetActive(false);
+        }
     }
 
     public float CheckLeftLevelBorder()
@@ -288,11 +295,20 @@ public class ObjectManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Spawns a Hole in a random position.
+    /// Calls an hole to spawn, and gives points to the player.
     /// </summary>
-    private void SpawnNewHole()
+    private void PlayerPassedHole()
     {
         SpawnNewHole(SpawnHolePosition());
+        GivePointsToPlayer();
+    }
+
+    /// <summary>
+    /// Gives points to the player (GameController, to be precise) for passing a hole. 
+    /// </summary>
+    private void GivePointsToPlayer()
+    {
+        GameController.Instance.ChangeScore(pointsForPassing * GameController.Instance.CurrentLevel);
     }
 
     /// <summary>
@@ -408,9 +424,6 @@ public class ObjectManager : MonoBehaviour {
 
     public void SpawnEnemyPawns(float size,  float floorHeight, int enemyCount)
     {
-        //TEMPORAL POR PRUEBAS
-        enemyCount = 3;
-
         enemyPawnsInScene = new EnemyPawn[enemyCount];
 
         for (int i = 0; i < enemyPawnsInScene.Length; i++)

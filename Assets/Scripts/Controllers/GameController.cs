@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour {
     UIController uiController;
     [SerializeField]
     int initialLifes = 6;
+    [SerializeField]
+    int maxLevels = 21;
 
     int score;
     int highScore;
@@ -31,10 +33,18 @@ public class GameController : MonoBehaviour {
 
     int currentLevel;
 
+    public int CurrentLevel
+    {
+        get
+        {
+            return currentLevel;
+        }
+    }
+
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        currentLevel = 0;
+        currentLevel = 4; //Debe ser cero, hecho for testing
         score = 0;
         highScore = 0; //Temporal, falta hacer la puntuación alta.
         lifes = initialLifes;
@@ -43,6 +53,10 @@ public class GameController : MonoBehaviour {
     public void Win()
     {
         Time.timeScale = 0;
+
+        //Suena música de ganar
+
+        //Pasa a escena de next level
     }
 
     public void AdvanceToNextLevel()
@@ -69,9 +83,9 @@ public class GameController : MonoBehaviour {
         highScore = newHighScore;
     }
 
-    public void ChangeScore(int score)
+    public void ChangeScore(int newScore)
     {
-        score += score;
+        score += newScore;
         uiController.SetScore(highScore, score);
     }
 
@@ -79,6 +93,20 @@ public class GameController : MonoBehaviour {
     {
         lifes += change;
         uiController.SetLifes(lifes);
+
+        if (lifes <= 0)
+        {
+            Lose();
+        }
+    }
+
+    private void Lose()
+    {
+        Time.timeScale = 0;
+
+        //Suena música de perdida
+
+        //Pasa a escena de game over
     }
 
 }
