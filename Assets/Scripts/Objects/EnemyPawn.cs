@@ -130,12 +130,20 @@ public class EnemyPawn : Pawn {
 
     void DissapearOnLastFloor()
     {
+        if (myGhost.mySpriteRenderer == null)
+        {
+            myGhost.mySpriteRenderer = myGhost.GetComponent<SpriteRenderer>();
+        }
         myGhost.mySpriteRenderer.enabled = false;
         myGhost.isOutOfBounds = true;
     }
 
     void AppearIfNotOnLastFloor()
     {
+        if (myGhost.mySpriteRenderer == null)
+        {
+            myGhost.mySpriteRenderer = myGhost.GetComponent<SpriteRenderer>();
+        }
         myGhost.mySpriteRenderer.enabled = true;
         myGhost.isOutOfBounds = false;
     }

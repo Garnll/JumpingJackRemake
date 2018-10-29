@@ -417,7 +417,7 @@ public class ObjectManager : MonoBehaviour {
                         newPosition.x <= enemyPawnsInScene[i].transform.position.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x &&
                         newPosition.y == enemyPawnsInScene[i].transform.position.y)
                     {
-                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x * 2f;
+                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.size.x * 2f;
                     }
                 }
 
@@ -427,7 +427,7 @@ public class ObjectManager : MonoBehaviour {
                         newPosition.x <= enemyPawnsInScene[i].MyGhost.transform.position.x + enemyPawnsInScene[i].MyGhost.MySpriteRenderer.bounds.extents.x &&
                         newPosition.y == enemyPawnsInScene[i].MyGhost.transform.position.y)
                     {
-                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x * 2f;
+                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.size.x * 2f;
                     }
                 }
             }
