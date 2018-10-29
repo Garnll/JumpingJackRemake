@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour {
         //DONE FOR TESTING
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Win();
+            //Win();
         }
     }
 
