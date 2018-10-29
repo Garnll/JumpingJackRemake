@@ -112,7 +112,7 @@ public class LoadingScreenController : MonoBehaviour {
         if (GameController.Instance.ShouldGiveExtraLife())
         {
             extraLifeBox.gameObject.SetActive(true);
-            StartCoroutine(AnimateHighBox());
+            StartCoroutine(AnimateExtraLife());
         }
 
         SetPressBoxActive();
@@ -125,7 +125,7 @@ public class LoadingScreenController : MonoBehaviour {
         writing = false;
     }
 
-    private IEnumerator AnimateHighBox()
+    private IEnumerator AnimateExtraLife()
     {
         Color buffer = color1;
         extraLifeBox.color = color1;

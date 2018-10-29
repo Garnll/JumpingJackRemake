@@ -104,7 +104,7 @@ public class GameController : MonoBehaviour {
     {
         if (currentLevel <= maxLevels)
         {
-            SceneManager.LoadScene("Level" + 0); //HECHO POR PRUEBAS, CAMBIAR
+            SceneManager.LoadScene("Level" + currentLevel);
         }
         else
         {
@@ -125,7 +125,7 @@ public class GameController : MonoBehaviour {
         uiController.SetTextAreaSize(floorHeight, width * 0.5f);
         uiController.SetGameArea(width, height);
 
-        ChangeScore(score);
+        ChangeScore(0);
         ChangeLifeCount(0);
     }
 
@@ -164,7 +164,10 @@ public class GameController : MonoBehaviour {
     public void ChangeLifeCount(int change)
     {
         lifes += change;
-        uiController.SetLifes(lifes);
+        if (uiController != null)
+        {
+            uiController.SetLifes(lifes);
+        }
 
         if (lifes <= 0)
         {

@@ -3714,7 +3714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8afa5a0e3555e8f4da8d90c0c02282b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myLevel: 1
+  myLevel: 13
   offsetPercentage: 0.1
   maxFloors: 8
   masks:
