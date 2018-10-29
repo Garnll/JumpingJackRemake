@@ -118,9 +118,9 @@ public class LevelController : MonoBehaviour {
     private void SpawnPlayer()
     {
         myObjectManager.SpawnPlayerObject(
-            playerObjectSize,
-            cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.35f, offset)),
-            floorHeight);
+            cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth * 0.35f, offset)));
+
+        playerObjectSize = myObjectManager.GetPlayerScale();
     }
 
     /// <summary>

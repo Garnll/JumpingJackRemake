@@ -129,9 +129,6 @@ public class ObjectManager : MonoBehaviour {
 
         floors[floorNumber].transform.localScale = rescale;
 
-        //floorSprite.size = new Vector2(width, floorSprite.size.y);
-        //floors[floorNumber].transform.localScale = new Vector2(width, floors[floorNumber].transform.localScale.y);
-
         if (floorSpriteSize < 0)
         {
             floorSpriteSize = floorSprite.size.y; //se va a usar en calculos posteriores
@@ -161,18 +158,30 @@ public class ObjectManager : MonoBehaviour {
 
     #region Player Methods
 
-    public void SpawnPlayerObject(float size, Vector2 position, float floorHeight)
+    public void SpawnPlayerObject(Vector2 position)
     {
+
         playerPawn.SetStartPosition(new Vector2(position.x, position.y + floorSpriteSize * 0.5f));
         //se le suma a la posición en y la mitad del tamaño del sprite del piso para que el personaje aparente estar "sobre" el piso.
 
-        playerPawn.MySpriteRenderer.size = new Vector2(size, size);
-        BoxCollider2D playerCollider = playerPawn.MyCollider as BoxCollider2D;
+        float newSize = Vector2.Distance(
+            new Vector2 (0, floors[1].transform.position.y), 
+            new Vector2 (0, floors[0].transform.position.y)) * 0.75f;
 
-        playerCollider.size = new Vector2(size * 0.25f, size);
-        playerCollider.offset = new Vector2(0, size * 0.5f);
+        float size = playerPawn.MySpriteRenderer.bounds.size.x;
+
+        Vector3 rescale = playerPawn.transform.localScale;
+        rescale.x = (newSize * rescale.x) / size;
+        rescale.y = rescale.x;
+
+        playerPawn.transform.localScale = rescale;
 
         playerPawn.gameObject.SetActive(true);
+    }
+
+    public float GetPlayerScale()
+    {
+        return playerPawn.transform.localScale.x;
     }
 
     #endregion
@@ -327,6 +336,7 @@ public class ObjectManager : MonoBehaviour {
 
         holePawnsInScene[holePoolPosition].gameObject.SetActive(true);
         holePawnsInScene[holePoolPosition].GiveSpawningFloor(position, (int)position.z);
+        holePawnsInScene[holePoolPosition].GiveSize(floors[0].MySpriteRenderer.bounds.size);
 
         GiveNewHoleDirection(holePawnsInScene[holePoolPosition]);
         GiveNewHoleAGhost(holePawnsInScene[holePoolPosition]);
@@ -363,6 +373,8 @@ public class ObjectManager : MonoBehaviour {
     {
         spawningHole.AddGhost(holeGhostsPool[holePoolPosition]);
         holeGhostsPool[holePoolPosition].AddGhost(spawningHole);
+
+        holeGhostsPool[holePoolPosition].GiveSize(floors[0].MySpriteRenderer.bounds.size);
     }
 
     #endregion
@@ -405,7 +417,7 @@ public class ObjectManager : MonoBehaviour {
                         newPosition.x <= enemyPawnsInScene[i].transform.position.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x &&
                         newPosition.y == enemyPawnsInScene[i].transform.position.y)
                     {
-                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x;
+                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x * 2f;
                     }
                 }
 
@@ -415,7 +427,7 @@ public class ObjectManager : MonoBehaviour {
                         newPosition.x <= enemyPawnsInScene[i].MyGhost.transform.position.x + enemyPawnsInScene[i].MyGhost.MySpriteRenderer.bounds.extents.x &&
                         newPosition.y == enemyPawnsInScene[i].MyGhost.transform.position.y)
                     {
-                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x;
+                        newPosition.x = newPosition.x + enemyPawnsInScene[i].MySpriteRenderer.bounds.extents.x * 2f;
                     }
                 }
             }
@@ -431,11 +443,7 @@ public class ObjectManager : MonoBehaviour {
             enemyPawnsInScene[i] = enemyPawnsInPool[i];
             enemyPawnsInPool[i] = null;
 
-            enemyPawnsInScene[i].MySpriteRenderer.size = new Vector2(size, size);
-            BoxCollider2D enemyCollider = enemyPawnsInScene[i].MyCollider as BoxCollider2D;
-
-            enemyCollider.size = new Vector2(size * 0.5f, size);
-            enemyCollider.offset = new Vector2(0, size * 0.5f);
+            enemyPawnsInScene[i].transform.localScale = new Vector2(size, size);
 
             enemyPawnsInScene[i].gameObject.SetActive(true);
             GiveEnemyGhost(enemyPawnsInScene[i], i);
@@ -452,11 +460,7 @@ public class ObjectManager : MonoBehaviour {
         enemy.AddGhost(enemyGhostsPool[position]);
         enemyGhostsPool[position].AddGhost(enemy);
 
-        enemy.MyGhost.MySpriteRenderer.size = enemy.MySpriteRenderer.size;
-        BoxCollider2D ghostCollider = enemy.MyGhost.MyCollider as BoxCollider2D;
-
-        ghostCollider.size = new Vector2(enemy.MySpriteRenderer.size.x * 0.5f, enemy.MySpriteRenderer.size.y);
-        ghostCollider.offset = new Vector2(0, enemy.MySpriteRenderer.size.y * 0.5f);
+        enemy.MyGhost.transform.localScale = enemy.transform.localScale;
     }
 
     #endregion

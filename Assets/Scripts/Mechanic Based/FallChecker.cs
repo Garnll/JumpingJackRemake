@@ -11,7 +11,7 @@ public class FallChecker : MonoBehaviour {
     {
         BoxCollider2D myCollider = GetComponent<BoxCollider2D>();
 
-        myCollider.size = player.MySpriteRenderer.size * 0.25f;
+        myCollider.size = (player.MyCollider as BoxCollider2D).size;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,9 +29,25 @@ public class FallChecker : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (player.LastHoleJumped != null)
+        {
+            if (player.LastHoleJumped == collision.GetComponent<HolePawn>())
+            {
+                return;
+            }
+        }
+
         if (!player.IsJumping)
         {
             player.StartFall();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (player.LastHoleJumped != null)
+        {
+            player.LastHoleJumped = null;
         }
     }
 

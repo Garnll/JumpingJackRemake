@@ -32,7 +32,6 @@ public class EnemyPawn : Pawn {
     private void Attack(PlayerPawn player)
     {
         //Inicia animación de ataque?
-        Debug.Log("Attack!");
 
         player.Damage();
     }

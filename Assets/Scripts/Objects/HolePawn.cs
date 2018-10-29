@@ -6,21 +6,27 @@ using UnityEngine;
 public class HolePawn : Pawn {
 
     [SerializeField]
-    Vector2 expectedScale;
+    float expectedSizePercentage = 0.1f;
 
     HolePawn myGhost;
     bool isExitingFloor;
 
-
     private void Start()
     {
-        transform.localScale = new Vector2(
-            ((expectedScale.x * Screen.width) / 800),
-            ((expectedScale.y * Screen.height) / 600));
-
         isExitingFloor = false;
+    }
 
+    public void GiveSize(Vector2 floorSize)
+    {
+        Vector2 newSize = new Vector2(floorSize.x * expectedSizePercentage, floorSize.y);
 
+        Vector2 size = GetComponent<SpriteRenderer>().bounds.size;
+
+        Vector3 rescale = transform.localScale;
+        rescale.x = (newSize.x * rescale.x) / size.x;
+        rescale.y = (newSize.y * rescale.y) / size.y;
+
+        transform.localScale = rescale;
     }
 
     public HolePawn MyGhost

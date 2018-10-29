@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerPawn : Pawn, IControllable {
 
     [SerializeField]
-    float maxJumpTime = 0.5f;
+    float maxJumpSpeed = 0.5f;
     [Space(10)]
     [SerializeField]
     float maxStunTime = 4;
@@ -31,6 +31,7 @@ public class PlayerPawn : Pawn, IControllable {
     bool hitCeiling;
     bool hitHole;
 
+    HolePawn lastHoleJumped;
 
     public delegate void Jumping();
     public static event Jumping OnPassThruHole;
@@ -43,6 +44,17 @@ public class PlayerPawn : Pawn, IControllable {
         }
     }
 
+    public HolePawn LastHoleJumped
+    {
+        get
+        {
+            return lastHoleJumped;
+        }
+        set
+        {
+            lastHoleJumped = value;
+        }
+    }
 
     private void Start()
     {
@@ -74,10 +86,12 @@ public class PlayerPawn : Pawn, IControllable {
 
     public void ReceiveInput(bool jumpCommand)
     {
+
         if (isStunned || !jumpCommand || isJumping || isFalling || gotDamaged)
         {
             return;
         }
+
 
         isJumping = true;
         CheckForHole();
@@ -94,6 +108,7 @@ public class PlayerPawn : Pawn, IControllable {
         if (hit.collider != null)
         {
             hitHole = true;
+            lastHoleJumped = hit.collider.GetComponent<HolePawn>();
         }
         else
         {
@@ -132,15 +147,17 @@ public class PlayerPawn : Pawn, IControllable {
 
     private IEnumerator Fall()
     {
-        float fallTime = 1 / maxJumpTime * 0.8f;
-
         Vector2 fallDestiny = new Vector2(transform.position.x, originalSpawnPoint.y + jumpLength * (currentFloor - 1));
 
+        Vector2 start = transform.position;
+        float jumpCurrentTime = 0;
 
         while (Vector2.Distance(transform.position, fallDestiny) > 0.01f)
         {
             yield return new WaitForFixedUpdate();
-            transform.position = Vector2.Lerp(transform.position, fallDestiny, fallTime * Time.fixedDeltaTime);
+            jumpCurrentTime += maxJumpSpeed * Time.fixedDeltaTime;
+
+            transform.position = Vector2.Lerp(start, fallDestiny, jumpCurrentTime);
         }
         ChangeFloor(-1);
 
@@ -162,15 +179,19 @@ public class PlayerPawn : Pawn, IControllable {
     {
         if (hitHole)
         {
-            float jumpTime = 1 / maxJumpTime;
-
             Vector2 jumpDestiny = new Vector2(transform.position.x, originalSpawnPoint.y + jumpLength * (currentFloor + 1));
+
+            Vector2 start = transform.position;
+            float jumpCurrentTime = 0;
 
             //Animación de salto
             while (Vector2.Distance(transform.position, jumpDestiny) > 0.01f)
             {
                 yield return new WaitForFixedUpdate();
-                transform.position = Vector2.Lerp(transform.position, jumpDestiny, jumpTime * Time.fixedDeltaTime);
+                isJumping = true;
+                jumpCurrentTime += maxJumpSpeed * Time.fixedDeltaTime;
+
+                transform.position = Vector2.Lerp(start, jumpDestiny, jumpCurrentTime);
             }
             JumpThroughHole(); //Esto debería ser llamado a la mitad del salto
 
@@ -182,19 +203,23 @@ public class PlayerPawn : Pawn, IControllable {
 
         else if (hitCeiling)
         {
-            float jumpTime = (1 * 0.5f) / maxJumpTime;
+            Vector2 start = transform.position;
+            float jumpCurrentTime = 0;
 
-            Vector2 jumpDestiny = new Vector2(transform.position.x, (transform.position.y + jumpLength) - mySpriteRenderer.bounds.extents.y);
+            Vector2 jumpDestiny = new Vector2(transform.position.x, (transform.position.y + jumpLength) - mySpriteRenderer.bounds.size.y);
 
             while (Vector2.Distance(transform.position, jumpDestiny) > 0.01f)
             {
                 yield return new WaitForFixedUpdate();
-                transform.position = Vector2.Lerp(transform.position, jumpDestiny, jumpTime * Time.fixedDeltaTime);
+                isJumping = true;
+                jumpCurrentTime += maxJumpSpeed * Time.fixedDeltaTime;
+
+                transform.position = Vector2.Lerp(start, jumpDestiny, jumpCurrentTime);
             }
+
             transform.position = jumpDestiny;
 
             StartStunByHittingCeiling();
-            isJumping = false;
             hitCeiling = false;
         }
     }
@@ -247,7 +272,9 @@ public class PlayerPawn : Pawn, IControllable {
 
     private void StunByHittingCeiling()
     {
-        transform.position = new Vector2(transform.position.x, (transform.position.y - jumpLength) + mySpriteRenderer.bounds.extents.y);
+        isJumping = false;
+
+        transform.position = new Vector2(transform.position.x, (transform.position.y - jumpLength) + mySpriteRenderer.bounds.size.y);
 
         currentStunTime += ceilingStunTime;
 
