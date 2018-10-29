@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b0722952d2db24bae5debb26fc1dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 3.1
-  maxJumpTime: 3
+  velocity: 3
+  maxJumpSpeed: 4
   maxStunTime: 4
   fallStunTime: 1
   enemyStunTime: 2
