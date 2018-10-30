@@ -63,6 +63,7 @@ public class GameController : MonoBehaviour {
 
     private void Awake()
     {
+        Cursor.visible = false;
         DontDestroyOnLoad(this);
         highScoreManager = new HighScoreManager();
 

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212886288263394340}
   - component: {fileID: 61741528485840142}
   - component: {fileID: 114364860693942492}
+  - component: {fileID: 95566117884083976}
   m_Layer: 10
   m_Name: EnemyPawn
   m_TagString: Untagged
@@ -67,6 +68,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2}
   m_EdgeRadius: 0
+--- !u!95 &95566117884083976
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1669835849011976}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114364860693942492
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,6 +98,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 3
+  possibleAnimators:
+  - {fileID: 9100000, guid: 472cfdb2eeade074fbc2311aa2708f8c, type: 2}
+  - {fileID: 9100000, guid: 3dcc737c20da46c428c8852aac0bb87d, type: 2}
+  - {fileID: 9100000, guid: cb366bb0fd53ec442aebd5810b017ed4, type: 2}
+  - {fileID: 9100000, guid: 71aea59bb2a1d3e49af3415c4c052956, type: 2}
+  - {fileID: 9100000, guid: cbce7cbf03580e546853a3627c6eb8ee, type: 2}
+  - {fileID: 9100000, guid: 0bb0c17e5803af645b50029df733abeb, type: 2}
+  - {fileID: 9100000, guid: aee9c166ccfbde94e904a17a3ce4b619, type: 2}
+  - {fileID: 9100000, guid: f1a56e2fe6baaa14495d93b0f1810668, type: 2}
+  - {fileID: 9100000, guid: 8cfb4268567369a4b94d70e9aa49ec2f, type: 2}
+  - {fileID: 9100000, guid: c6db419d1c493a14a9524abfadefd24b, type: 2}
+  possibleColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.83921576, a: 1}
+  - {r: 0.8773585, g: 0.77549374, b: 0.120016046, a: 1}
+  - {r: 0.10012458, g: 0.8490566, b: 0.21076225, a: 1}
+  - {r: 0, g: 0.64903307, b: 1, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
 --- !u!212 &212886288263394340
 SpriteRenderer:
   m_ObjectHideFlags: 1

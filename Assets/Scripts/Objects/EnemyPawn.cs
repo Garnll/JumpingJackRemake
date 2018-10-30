@@ -5,16 +5,38 @@ using UnityEngine;
 
 public class EnemyPawn : Pawn {
 
+    [SerializeField]
+    RuntimeAnimatorController[] possibleAnimators;
+    [SerializeField]
+    Color[] possibleColors;
+
+    Animator myAnimator;
+
     EnemyPawn myGhost;
     bool isExitingFloor;
     bool isOutOfBounds;
     public float floorOffset { get; set; }
+
+
 
     public EnemyPawn MyGhost
     {
         get
         {
             return myGhost;
+        }
+    }
+
+    private void OnEnable()
+    {
+        myAnimator = GetComponent<Animator>();
+        if (myAnimator.runtimeAnimatorController == null)
+        {
+            int r = UnityEngine.Random.Range(0, possibleAnimators.Length);
+            myAnimator.runtimeAnimatorController = possibleAnimators[r];
+
+            r = UnityEngine.Random.Range(0, possibleColors.Length);
+            mySpriteRenderer.color = possibleColors[r];
         }
     }
 
@@ -31,8 +53,6 @@ public class EnemyPawn : Pawn {
 
     private void Attack(PlayerPawn player)
     {
-        //Inicia animación de ataque?
-
         player.Damage();
     }
 
@@ -62,6 +82,12 @@ public class EnemyPawn : Pawn {
     public void AddGhost(EnemyPawn newGhost)
     {
         myGhost = newGhost;
+
+        myGhost.myAnimator = myGhost.GetComponent<Animator>();
+        myGhost.myAnimator.runtimeAnimatorController = myAnimator.runtimeAnimatorController;
+
+        myGhost.mySpriteRenderer = myGhost.GetComponent<SpriteRenderer>();
+        myGhost.mySpriteRenderer.color = mySpriteRenderer.color;
     }
 
     protected override void CheckEndOfScreen()
