@@ -9,6 +9,11 @@ public class TitleScreenController : MonoBehaviour {
     [SerializeField]
     GameObject copyrightText;
 
+    private void PlayTitleSound()
+    {
+        GameController.Instance.audioController.PlayLetterFall();
+    }
+
     public void StartTimer()
     {
         copyrightText.SetActive(true);

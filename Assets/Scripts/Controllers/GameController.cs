@@ -28,9 +28,14 @@ public class GameController : MonoBehaviour {
     [SerializeField]
     int[] levelsToGiveLife;
 
+    [SerializeField]
+    public AudioController audioController { get; private set; }
+
     int score;
     int highScore;
     int lifes;
+
+    public bool endLevel { get; private set; }
 
     public ObjectManager objectManager { get; set; }
     HighScoreManager highScoreManager;
@@ -66,6 +71,12 @@ public class GameController : MonoBehaviour {
         Cursor.visible = false;
         DontDestroyOnLoad(this);
         highScoreManager = new HighScoreManager();
+        endLevel = false;
+
+        if (audioController == null)
+        {
+            audioController = GetComponent<AudioController>();  
+        }
 
         currentLevel = 1;
         score = 0;
@@ -89,18 +100,17 @@ public class GameController : MonoBehaviour {
     public void Win()
     {
         Time.timeScale = 0;
+        endLevel = true;
 
-        //Suena música de ganar
-
-        GoToLoadingScreen();
+        audioController.PlayWin();
     }
 
-    private void GoToGameOverScreen()
+    public void GoToGameOverScreen()
     {
         SceneManager.LoadScene("GameOverScreen");
     }
 
-    private void GoToLoadingScreen()
+    public void GoToLoadingScreen()
     {
         currentLevel++;
         SceneManager.LoadScene("LoadingScreen");
@@ -110,6 +120,7 @@ public class GameController : MonoBehaviour {
     {
         if (currentLevel <= maxLevels)
         {
+            endLevel = false;
             SceneManager.LoadScene("Level" + currentLevel);
         }
         else
@@ -184,14 +195,14 @@ public class GameController : MonoBehaviour {
     private void Lose()
     {
         Time.timeScale = 0;
+        endLevel = true;
 
-        //Suena música de perdida
-
-        GoToGameOverScreen();
+        audioController.PlayLose();
     }
 
     public void Restart()
     {
+        endLevel = false;
         currentLevel = 1;
         score = 0;
         lifes = initialLifes;

@@ -87,6 +87,11 @@ public class PlayerPawn : Pawn, IControllable {
 
     public void ReceiveInput(float horizontal)
     {
+        if (GameController.Instance.endLevel)
+        {
+            return;
+        }
+
         if (isStunned || isJumping || isFalling || gotDamaged)
         {
             return;
@@ -102,6 +107,10 @@ public class PlayerPawn : Pawn, IControllable {
 
     public void ReceiveInput(bool jumpCommand)
     {
+        if (GameController.Instance.endLevel)
+        {
+            return;
+        }
 
         if (isStunned || !jumpCommand || isJumping || isFalling || gotDamaged)
         {
@@ -111,6 +120,19 @@ public class PlayerPawn : Pawn, IControllable {
 
         isJumping = true;
         CheckForHole();
+    }
+
+    protected override void Move(Vector2 direction)
+    {
+        if (direction.x != 0)
+        {
+            GameController.Instance.audioController.PlayWalk();
+        }
+        else
+        {
+            GameController.Instance.audioController.PlayIdle();
+        }
+        base.Move(direction);
     }
 
     private void CheckForHole()
@@ -157,6 +179,7 @@ public class PlayerPawn : Pawn, IControllable {
         }
 
         isFalling = true;
+        GameController.Instance.audioController.PlayFall();
         myAnimator.SetBool("falling", isFalling);
         StartCoroutine(Fall());
     }
@@ -191,6 +214,7 @@ public class PlayerPawn : Pawn, IControllable {
     #region Jump Methods
     void StartJump()
     {
+        GameController.Instance.audioController.PlayJump();
         myAnimator.SetBool("jumping", isJumping);
         StartCoroutine(Jump());
     }
@@ -288,6 +312,8 @@ public class PlayerPawn : Pawn, IControllable {
 
     private void StartStunByHittingCeiling()
     {
+        GameController.Instance.audioController.PlayHitCeiling();
+
         blinkScreen.gameObject.SetActive(true);
         blinkScreen.color = hitCeilingColor;
         blinkScreenTime = 0.2f;
@@ -313,6 +339,8 @@ public class PlayerPawn : Pawn, IControllable {
 
     private void StunByDamagedByHazard()
     {
+        GameController.Instance.audioController.PlayHazard();
+
         blinkScreen.gameObject.SetActive(true);
         blinkScreen.color = hazardDamageColor;
         blinkScreenTime = 0.2f;
@@ -357,6 +385,8 @@ public class PlayerPawn : Pawn, IControllable {
         myAnimator.SetBool("stunned", isStunned);
         while (currentStunTime > 0)
         {
+            GameController.Instance.audioController.PlayStun();
+
             if (currentStunTime > maxStunTime)
             {
                 currentStunTime = maxStunTime;
@@ -380,6 +410,7 @@ public class PlayerPawn : Pawn, IControllable {
 
     private void EndStun()
     {
+        GameController.Instance.audioController.StopPlaying();
         currentStunTime = 0;
         isStunned = false;
 

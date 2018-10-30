@@ -486,6 +486,7 @@ GameObject:
   - component: {fileID: 699588910}
   - component: {fileID: 699588909}
   - component: {fileID: 699588911}
+  - component: {fileID: 699588912}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -616,6 +617,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &699588912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 699588908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccacec4c71a71d44cb79b7fce3a1d5e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAudioSource: {fileID: 699588911}
+  idle: {fileID: 8300000, guid: ee83ba4026a3f0147bcb85c144113e92, type: 3}
+  fall: {fileID: 8300000, guid: 798d3b4316cffc743aa496658bfc7008, type: 3}
+  hazard: {fileID: 8300000, guid: 73e1941d724d070409c95e076cb16d6b, type: 3}
+  hitCeiling: {fileID: 8300000, guid: 321f3c2d5aed5a143860819c10cd9bff, type: 3}
+  jump: {fileID: 8300000, guid: 1a05768c9cb5be342a3bb09dc6131f0d, type: 3}
+  lose: {fileID: 8300000, guid: 6241184075b8e164f801e59bbc29d570, type: 3}
+  stun: {fileID: 8300000, guid: 191022b4f78260a489c991a260bc04e0, type: 3}
+  walk: {fileID: 8300000, guid: 146395d85cffaf641babcfd5d4b20083, type: 3}
+  win: {fileID: 8300000, guid: 5ccebc31e3e47a94991aab67b3e59506, type: 3}
+  letterFall: {fileID: 8300000, guid: f849b6c5b1f81044c9e0079fa7d0062b, type: 3}
 --- !u!1 &704021000
 GameObject:
   m_ObjectHideFlags: 0

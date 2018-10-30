@@ -44,7 +44,7 @@ public abstract class Pawn : MonoBehaviour {
         myCollider = GetComponent<Collider2D>();
     }
 
-    protected void Move(Vector2 direction)
+    protected virtual void Move(Vector2 direction)
     {
         transform.Translate(direction * Time.deltaTime * velocity);
         CheckEndOfScreen();
