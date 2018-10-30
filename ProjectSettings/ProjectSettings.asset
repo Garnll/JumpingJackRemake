@@ -12,11 +12,11 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: GarnProductions
-  productName: JumpingStarWIP
+  companyName: Lagoueyte Productions
+  productName: Jumping Star
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.120950505, g: 0.13096166, b: 0.16981131, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
@@ -261,7 +261,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 176c55738ca8ee740a4bb7a3241f2700, type: 3}
+      m_Icon: {fileID: 2800000, guid: 1fe7f1c7bd46c1046a821bf87b7cc334, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
