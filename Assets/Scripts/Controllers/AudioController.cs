@@ -109,7 +109,7 @@ public class AudioController : MonoBehaviour {
 
     public void PlayStun()
     {
-        if (myAudioSource.clip != stun)
+        if (myAudioSource.clip != stun || (myAudioSource.clip == stun && !myAudioSource.isPlaying))
         {
             myAudioSource.Stop();
 
