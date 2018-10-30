@@ -48,6 +48,16 @@ public class EnemyPawn : Pawn {
         Attack(collision.GetComponent<PlayerPawn>());
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (isOutOfBounds)
+        {
+            return;
+        }
+
+        Attack(collision.GetComponent<PlayerPawn>());
+    }
+
     /// <summary>
     /// Tells the player it has been damaged.
     /// </summary>

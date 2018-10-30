@@ -313,7 +313,7 @@ public class PlayerPawn : Pawn, IControllable {
     /// </summary>
     public void Damage()
     {
-        if (isJumping)
+        if (isJumping || gotDamaged)
         {
             return;
         }
