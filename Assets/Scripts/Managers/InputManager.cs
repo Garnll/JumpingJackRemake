@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
     [SerializeField]
     PlayerPawn playerControllable;
 
-	void Update ()
+    private void Update ()
     {
         playerControllable.ReceiveInput(Input.GetAxisRaw("Horizontal"));
 

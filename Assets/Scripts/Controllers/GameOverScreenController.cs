@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -52,7 +51,7 @@ public class GameOverScreenController : MonoBehaviour {
         }
     }
 
-    void SetScore()
+    private void SetScore()
     {
         if (GameController.Instance.CurrentLevel - 1 == 1)
         {
@@ -86,7 +85,7 @@ public class GameOverScreenController : MonoBehaviour {
         CheckIfNewHigh();
     }
 
-    void CheckIfNewHigh()
+    private void CheckIfNewHigh()
     {
         if (GameController.Instance.ShouldChangeHighScore())
         {

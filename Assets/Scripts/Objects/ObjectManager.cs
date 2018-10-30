@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ObjectManager : MonoBehaviour {
 
@@ -362,7 +360,6 @@ public class ObjectManager : MonoBehaviour {
         {
             spawningHole.GiveDirection(Vector2.right);
         }
-        //Se hacen estos if para recrear la manera en que se creaban los huecos en el juego original
     }
 
     /// <summary>

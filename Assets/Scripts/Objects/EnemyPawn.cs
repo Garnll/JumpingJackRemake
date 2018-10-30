@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class EnemyPawn : Pawn {
@@ -16,8 +14,6 @@ public class EnemyPawn : Pawn {
     bool isExitingFloor;
     bool isOutOfBounds;
     public float floorOffset { get; set; }
-
-
 
     public EnemyPawn MyGhost
     {
@@ -52,6 +48,10 @@ public class EnemyPawn : Pawn {
         Attack(collision.GetComponent<PlayerPawn>());
     }
 
+    /// <summary>
+    /// Tells the player it has been damaged.
+    /// </summary>
+    /// <param name="player"></param>
     private void Attack(PlayerPawn player)
     {
         player.Damage();
@@ -79,7 +79,10 @@ public class EnemyPawn : Pawn {
         }
     }
 
-
+    /// <summary>
+    /// Adds a given ghost and gives it the same characteristics as this enemy.
+    /// </summary>
+    /// <param name="newGhost"></param>
     public void AddGhost(EnemyPawn newGhost)
     {
         myGhost = newGhost;
@@ -91,6 +94,9 @@ public class EnemyPawn : Pawn {
         myGhost.mySpriteRenderer.color = mySpriteRenderer.color;
     }
 
+    /// <summary>
+    /// Checks if the enemy it's exiting the floor.
+    /// </summary>
     protected override void CheckEndOfScreen()
     {
         if (transform.position.x <= LevelController.leftLevelBorder + (mySpriteRenderer.bounds.extents.x*1.25f) && myDirection == Vector2.left)
@@ -109,6 +115,9 @@ public class EnemyPawn : Pawn {
         }
     }
 
+    /// <summary>
+    /// Puts a ghost on the next floor this enemy should go to.
+    /// </summary>
     private void ActivateGhost()
     {
         myGhost.transform.position = new Vector2(LevelController.rightLevelBorder + mySpriteRenderer.bounds.extents.x,
@@ -122,6 +131,9 @@ public class EnemyPawn : Pawn {
         myGhost.StartMoving();
     }
 
+    /// <summary>
+    /// Deactivates this gameobject while the ghost it's active.
+    /// </summary>
     private void DeactivateMyself()
     {
         isExitingFloor = false;
@@ -129,6 +141,10 @@ public class EnemyPawn : Pawn {
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Changes the floor the enemy is on, and checks if it should become invisible.
+    /// </summary>
+    /// <param name="floor"></param>
     protected override void ChangeFloor(int floor)
     {
         if (floor == GameController.Instance.objectManager.MaxVisibleFloors)
@@ -155,7 +171,10 @@ public class EnemyPawn : Pawn {
         }
     }
 
-    void DissapearOnLastFloor()
+    /// <summary>
+    /// When the enemy goes to the last floor, the ghost should not appear.
+    /// </summary>
+    private void DissapearOnLastFloor()
     {
         if (myGhost.mySpriteRenderer == null)
         {
@@ -165,7 +184,10 @@ public class EnemyPawn : Pawn {
         myGhost.isOutOfBounds = true;
     }
 
-    void AppearIfNotOnLastFloor()
+    /// <summary>
+    /// When the enemy it's on any floor, except the last one, the ghost should appear.
+    /// </summary>
+    private void AppearIfNotOnLastFloor()
     {
         if (myGhost.mySpriteRenderer == null)
         {

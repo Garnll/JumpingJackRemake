@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -57,7 +56,7 @@ public class LoadingScreenController : MonoBehaviour {
         }
     }
 
-    void CheckNextLevel()
+    private void CheckNextLevel()
     {
         if (GameController.Instance.CurrentLevel > GameController.Instance.MaxLevels)
         {
@@ -75,11 +74,12 @@ public class LoadingScreenController : MonoBehaviour {
         }
     }
 
-    void CheckPoem()
+    private void CheckPoem()
     {
         if (GameController.Instance.CurrentLevel > 1)
         {
-            StartCoroutine(AnimateText(poemFragment[GameController.Instance.CurrentLevel - 2]));//En el nivel 1 no hay poema, y el nivel 2 equivale a la posición 0 del array.
+            StartCoroutine(AnimateText(poemFragment[GameController.Instance.CurrentLevel - 2]));
+            //On the first level there's no poem, so the first part of the poem it's in the second level, meaning position 0 = level - 2.
         }
         else
         {
@@ -88,7 +88,7 @@ public class LoadingScreenController : MonoBehaviour {
 
     }
 
-    void GoToNextLevel()
+    private void GoToNextLevel()
     {
         GameController.Instance.AdvanceToNextLevel();
     }

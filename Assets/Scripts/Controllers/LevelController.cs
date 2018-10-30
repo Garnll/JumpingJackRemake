@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(ObjectManager))]
 public class LevelController : MonoBehaviour {
@@ -38,23 +35,21 @@ public class LevelController : MonoBehaviour {
             myObjectManager = GetComponent<ObjectManager>();
             GameController.Instance.objectManager = myObjectManager;
         }
-        //Posiciones en Y
+        //Y Positions
 
         playAreaHeight = cam.pixelHeight;
         offset = playAreaHeight * offsetPercentage; 
 
-        levelHeight = playAreaHeight - (2 * offset); //cuadro el area de juego para que cubra ligeramente menos que el total de la pantalla
+        levelHeight = playAreaHeight - (2 * offset); //The play area is fixed  to it's slighty smaller than the window
         floorHeight = levelHeight / maxFloors; 
 
-        playerObjectSize = floorHeight*0.75f/100; //El sprite del jugador es cuadrado
-
-        //Posiciones en X
+        //X Positions
 
         horizontalOffset = cam.pixelWidth * offsetPercentage;
         levelWidth = Vector2.Distance(cam.ScreenToWorldPoint(new Vector2(horizontalOffset, 0)), cam.ScreenToWorldPoint(new Vector2(cam.pixelWidth, 0)));
 
 
-        if (myObjectManager.FloorQuantityInPool < maxFloors + 1) //se incluye el piso 0
+        if (myObjectManager.FloorQuantityInPool < maxFloors + 1) //Floor 0 it's included
         {
             Debug.LogError("Not enough Floors on Pool");
 #if UNITY_EDITOR
@@ -124,13 +119,16 @@ public class LevelController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Makes the object manager spawn the first holes;
+    /// Makes the object manager spawn the first holes.
     /// </summary>
     private void SpawnHoles()
     {
         myObjectManager.SpawnFirstHoles(maxFloors);
     }
 
+    /// <summary>
+    /// Makes the object manager spawn enemies equal to level - 1.
+    /// </summary>
     private void SpawnEnemies()
     {
         if (myLevel <= 0)
@@ -144,6 +142,9 @@ public class LevelController : MonoBehaviour {
             myLevel - 1);
     }
 
+    /// <summary>
+    /// Changes the size and position of the masks that go at either size of the play area.
+    /// </summary>
     private void SpawnMasks()
     {
         Vector2 positionLeft = new Vector2(

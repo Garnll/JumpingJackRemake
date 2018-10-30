@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
@@ -66,6 +64,14 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    public int Lifes
+    {
+        get
+        {
+            return lifes;
+        }
+    }
+
     private void Awake()
     {
         Cursor.visible = false;
@@ -85,18 +91,15 @@ public class GameController : MonoBehaviour {
 
     private void Update()
     {
-        //DONE FOR TESTING
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Win();
-        }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
     }
 
+    /// <summary>
+    /// Stops the game and plays the win sound.
+    /// </summary>
     public void Win()
     {
         Time.timeScale = 0;
@@ -129,6 +132,12 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Sets the UI size, and it's first values.
+    /// </summary>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <param name="floorHeight"></param>
     public void SetUpUI(float width, float height, float floorHeight)
     {
         if (uiController == null)
@@ -146,6 +155,10 @@ public class GameController : MonoBehaviour {
         ChangeLifeCount(0);
     }
 
+    /// <summary>
+    /// Checks if the next level gives an extra life.
+    /// </summary>
+    /// <returns></returns>
     public bool ShouldGiveExtraLife()
     {
         for (int i = 0; i < levelsToGiveLife.Length; i++)
@@ -160,6 +173,10 @@ public class GameController : MonoBehaviour {
         return false;
     }
 
+    /// <summary>
+    /// Checks if the current score is higher that the last Highscore.
+    /// </summary>
+    /// <returns></returns>
     public bool ShouldChangeHighScore()
     {
         if (score > highScore)
@@ -172,12 +189,20 @@ public class GameController : MonoBehaviour {
         return false;
     }
 
+    /// <summary>
+    /// Adds the score given to the current score.
+    /// </summary>
+    /// <param name="newScore"></param>
     public void ChangeScore(int newScore)
     {
         score += newScore;
         uiController.SetScore(highScore, score);
     }
 
+    /// <summary>
+    /// Adds the lifes given to the current lifes.
+    /// </summary>
+    /// <param name="change"></param>
     public void ChangeLifeCount(int change)
     {
         lifes += change;
@@ -192,14 +217,21 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Stops the game and plays the lose sound.
+    /// </summary>
     private void Lose()
     {
-        Time.timeScale = 0;
         endLevel = true;
+        Time.timeScale = 0;
 
+        audioController.StopPlaying();
         audioController.PlayLose();
     }
 
+    /// <summary>
+    /// Restarts the values of the Gamecontroller, returning it to the first level.
+    /// </summary>
     public void Restart()
     {
         endLevel = false;

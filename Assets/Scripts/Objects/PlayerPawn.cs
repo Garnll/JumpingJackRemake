@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class PlayerPawn : Pawn, IControllable {
@@ -16,6 +14,7 @@ public class PlayerPawn : Pawn, IControllable {
     float enemyStunTime = 2;
     [SerializeField]
     float ceilingStunTime = 3;
+
     [Space(10)]
     [SerializeField]
     SpriteRenderer blinkScreen;
@@ -135,6 +134,9 @@ public class PlayerPawn : Pawn, IControllable {
         base.Move(direction);
     }
 
+    /// <summary>
+    /// Checks if there is a hole above the player when it jumps.
+    /// </summary>
     private void CheckForHole()
     {
         if (jumpLength < 0)
@@ -156,6 +158,9 @@ public class PlayerPawn : Pawn, IControllable {
         StartJump();
     }
 
+    /// <summary>
+    /// Checks if the player it's at any of the edges of the play area.
+    /// </summary>
     protected override void CheckEndOfScreen()
     {
         if (transform.position.x < LevelController.leftLevelBorder)
@@ -184,6 +189,10 @@ public class PlayerPawn : Pawn, IControllable {
         StartCoroutine(Fall());
     }
 
+    /// <summary>
+    /// Makes the player move down until they get to the next floor down.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Fall()
     {
         Vector2 fallDestiny = new Vector2(transform.position.x, originalSpawnPoint.y + jumpLength * (currentFloor - 1));
@@ -212,13 +221,18 @@ public class PlayerPawn : Pawn, IControllable {
     #endregion
 
     #region Jump Methods
-    void StartJump()
+
+    private void StartJump()
     {
         GameController.Instance.audioController.PlayJump();
         myAnimator.SetBool("jumping", isJumping);
         StartCoroutine(Jump());
     }
 
+    /// <summary>
+    /// Makes the player go up until they pass a hole or hit a ceiling.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator Jump()
     {
         if (hitHole)
@@ -294,6 +308,9 @@ public class PlayerPawn : Pawn, IControllable {
 
     #region Damage Methods
 
+    /// <summary>
+    /// Stops the player when a hazard touches them.
+    /// </summary>
     public void Damage()
     {
         if (isJumping)
@@ -385,6 +402,11 @@ public class PlayerPawn : Pawn, IControllable {
         myAnimator.SetBool("stunned", isStunned);
         while (currentStunTime > 0)
         {
+            if (GameController.Instance.endLevel)
+            {
+                yield break;
+            }
+
             GameController.Instance.audioController.PlayStun();
 
             if (currentStunTime > maxStunTime)
@@ -419,6 +441,10 @@ public class PlayerPawn : Pawn, IControllable {
 
     #endregion
 
+    /// <summary>
+    /// Changes the value of the floor the player's currently on.
+    /// </summary>
+    /// <param name="floor"></param>
     protected override void ChangeFloor(int floor)
     {
         currentFloor += floor;
@@ -441,8 +467,12 @@ public class PlayerPawn : Pawn, IControllable {
 
     }
 
-    void LoseALife()
+    private void LoseALife()
     {
+        if (GameController.Instance.Lifes - 1 == 0)
+        {
+            StopAllCoroutines();
+        }
         GameController.Instance.ChangeLifeCount(-1);
     }
 }

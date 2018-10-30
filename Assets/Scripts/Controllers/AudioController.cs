@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour {
@@ -170,6 +169,19 @@ public class AudioController : MonoBehaviour {
 
     private IEnumerator CheckLoseIsPlaying()
     {
+        while (myAudioSource.clip != lose)
+        {
+            myAudioSource.Stop();
+
+            myAudioSource.clip = lose;
+            myAudioSource.volume = 1;
+            myAudioSource.pitch = 1;
+            myAudioSource.loop = false;
+
+            myAudioSource.Play();
+            yield return new WaitForEndOfFrame();
+        }
+
         while (myAudioSource.isPlaying && myAudioSource.clip == lose)
         {
             yield return new WaitForEndOfFrame();

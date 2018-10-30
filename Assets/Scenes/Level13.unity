@@ -4932,7 +4932,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2088575209}
   - component: {fileID: 2088575208}
-  - component: {fileID: 2088575207}
   - component: {fileID: 2088575210}
   m_Layer: 0
   m_Name: UI
@@ -4941,22 +4940,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2088575207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2088575206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!223 &2088575208
 Canvas:
   m_ObjectHideFlags: 0
