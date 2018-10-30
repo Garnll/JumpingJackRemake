@@ -147,8 +147,11 @@ public class PlayerPawn : Pawn, IControllable {
 
         if (hit.collider != null)
         {
-            hitHole = true;
-            lastHoleJumped = hit.collider.GetComponent<HolePawn>();
+            if (hit.transform.position.y != transform.position.y)
+            {
+                hitHole = true;
+                lastHoleJumped = hit.collider.GetComponent<HolePawn>();
+            }
         }
         else
         {
