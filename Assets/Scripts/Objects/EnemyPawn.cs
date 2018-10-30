@@ -30,6 +30,7 @@ public class EnemyPawn : Pawn {
     private void OnEnable()
     {
         myAnimator = GetComponent<Animator>();
+
         if (myAnimator.runtimeAnimatorController == null)
         {
             int r = UnityEngine.Random.Range(0, possibleAnimators.Length);

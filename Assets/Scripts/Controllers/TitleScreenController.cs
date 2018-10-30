@@ -6,14 +6,12 @@ public class TitleScreenController : MonoBehaviour {
 
     [SerializeField]
     float waitTime = 3;
+    [SerializeField]
+    GameObject copyrightText;
 
-	void Start () {
-        //Inicia animación de titulo
-        StartTimer();
-	}
-	
-	private void StartTimer()
+    public void StartTimer()
     {
+        copyrightText.SetActive(true);
         StartCoroutine(Timer());
     }
 
