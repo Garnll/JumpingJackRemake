@@ -16,6 +16,14 @@ public class PlayerPawn : Pawn, IControllable {
     float enemyStunTime = 2;
     [SerializeField]
     float ceilingStunTime = 3;
+    [Space(10)]
+    [SerializeField]
+    SpriteRenderer blinkScreen;
+    [SerializeField]
+    Color hitCeilingColor;
+    [SerializeField]
+    Color hazardDamageColor;
+
 
     Animator myAnimator;
 
@@ -33,6 +41,7 @@ public class PlayerPawn : Pawn, IControllable {
     bool hitHole;
 
     HolePawn lastHoleJumped;
+    private float blinkScreenTime;
 
     public delegate void Jumping();
     public static event Jumping OnPassThruHole;
@@ -61,6 +70,7 @@ public class PlayerPawn : Pawn, IControllable {
     {
         myAnimator = GetComponent<Animator>();
 
+        blinkScreen.gameObject.SetActive(false);
         currentFloor = 0;
         currentStunTime = 0;
         isStunned = false;
@@ -278,11 +288,13 @@ public class PlayerPawn : Pawn, IControllable {
 
     private void StartStunByHittingCeiling()
     {
+        blinkScreen.gameObject.SetActive(true);
+        blinkScreen.color = hitCeilingColor;
+        blinkScreenTime = 0.2f;
 
         myAnimator.SetTrigger("hitCeiling");
 
         ChangeFloor(0);
-        //StunByHittingCeiling();
     }
 
     private void StunByHittingCeiling()
@@ -301,6 +313,10 @@ public class PlayerPawn : Pawn, IControllable {
 
     private void StunByDamagedByHazard()
     {
+        blinkScreen.gameObject.SetActive(true);
+        blinkScreen.color = hazardDamageColor;
+        blinkScreenTime = 0.2f;
+
         if (currentStunTime < enemyStunTime)
         {
             currentStunTime = enemyStunTime;
@@ -345,8 +361,18 @@ public class PlayerPawn : Pawn, IControllable {
             {
                 currentStunTime = maxStunTime;
             }
+
+            if (blinkScreenTime <= 0)
+            {
+                blinkScreen.gameObject.SetActive(false);
+            }
+
             yield return new WaitForFixedUpdate();
             currentStunTime -= Time.fixedDeltaTime;
+            if (blinkScreenTime > 0)
+            {
+                blinkScreenTime -= Time.fixedDeltaTime;
+            }
         }
 
         EndStun();
